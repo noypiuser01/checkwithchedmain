@@ -68,7 +68,8 @@ export default function CmoReferencesSelector({
                                 {curriculum.curriculum_name}
                             </option>
                         ))}
-                    </select>
+                    </select
+                    >
                 </div>
             )}
             {validationErrors.cmoReferences && (
