@@ -444,7 +444,7 @@ export default function Dashboard({ results = [] }) {
         }
   >
 {/* Enhanced CheckwithChed section */}
-<section className="pt-12 pb-16 relative overflow-hidden bg-gray-50">
+<section className="pt-8 pb-10 relative overflow-hidden bg-gray-50">
   {/* Background Pattern */}
   <div className="absolute inset-0 opacity-5">
     <div className="absolute top-10 left-10 w-40 h-40 bg-blue-400 rounded-full blur-3xl"></div>
@@ -454,13 +454,13 @@ export default function Dashboard({ results = [] }) {
 
   {/* Main Content */}
   <div className="relative z-10">
-    <div className="text-center mb-16">
+    <div className="text-center mb-10">
       {/* Logo with enhanced glow */}
       <div className="flex justify-center mb-8">
         <div className="relative group cursor-pointer">
-          <div className="absolute inset-0 w-24 h-24 bg-blue-500/25 rounded-full blur-sm group-hover:bg-blue-500/40 group-hover:blur-md transition-all duration-500"></div>
-          <div className="absolute inset-0 w-24 h-24 bg-gradient-to-br from-blue-400/20 to-indigo-500/20 rounded-full blur-xl group-hover:scale-125 transition-all duration-500"></div>
-          <div className="relative w-24 h-24 rounded-full shadow-lg hover:shadow-blue-400/40 hover:scale-110 transition-all duration-300 group-hover:border-blue-300 overflow-hidden">
+          <div className="absolute inset-0 w-16 h-16 bg-blue-500/25 rounded-full blur-[2px] group-hover:bg-blue-500/40 group-hover:blur-sm transition-all duration-500"></div>
+          <div className="absolute inset-0 w-16 h-16 bg-gradient-to-br from-blue-400/20 to-indigo-500/20 rounded-full blur-lg group-hover:scale-110 transition-all duration-500"></div>
+          <div className="relative w-16 h-16 rounded-full shadow-md hover:shadow-blue-400/40 hover:scale-105 transition-all duration-300 group-hover:border-blue-300 overflow-hidden">
             <img
               src="/images/logo.png"
               alt="CHED Logo"
@@ -472,25 +472,25 @@ export default function Dashboard({ results = [] }) {
 
       {/* Enhanced Title with gradient text */}
       <div className="relative">
-        <p className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 text-3xl sm:text-5xl lg:text-6xl font-extrabold drop-shadow-sm mb-4 sm:mb-6 hover:scale-105 transition-transform duration-300 cursor-default">
+        <p className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 text-2xl sm:text-4xl lg:text-5xl font-extrabold drop-shadow-sm mb-3 sm:mb-5 hover:scale-105 transition-transform duration-300 cursor-default">
           Check with CHED
         </p>
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/10 via-transparent to-indigo-600/10 blur-sm opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/10 via-transparent to-indigo-600/10 blur-[2px] opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
       </div>
 
-      <p className="text-gray-600 text-base sm:text-xl lg:text-2xl mt-2 sm:mt-4 max-w-2xl mx-auto px-4 leading-relaxed hover:text-gray-700 transition-colors duration-300">
+      <p className="text-gray-600 text-sm sm:text-lg lg:text-xl mt-1 sm:mt-3 max-w-xl mx-auto px-4 leading-relaxed hover:text-gray-700 transition-colors duration-300">
         Search for accredited higher education institutions and programs in the Philippines.
       </p>
 
       {/* Enhanced Accent Line with animation */}
-      <div className="flex justify-center mt-6">
-        <div className="w-32 h-1.5 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-full shadow-md hover:w-40 hover:shadow-lg transition-all duration-500 cursor-pointer"></div>
+      <div className="flex justify-center mt-4">
+        <div className="w-24 h-1 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-full shadow-md hover:w-28 hover:shadow-lg transition-all duration-500 cursor-pointer"></div>
       </div>
     </div>
 
     {/* Enhanced Search Bar */}
     <div className="flex justify-center px-4">
-      <div className="relative max-w-2xl w-full">
+      <div className="relative max-w-xl w-full">
         {/* Glow effect behind search bar */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-indigo-400/20 to-blue-400/20 rounded-2xl blur-xl opacity-0 hover:opacity-100 transition-opacity duration-500 scale-110"></div>
         
@@ -517,7 +517,7 @@ export default function Dashboard({ results = [] }) {
               name="query"
               value={data.query}
               onChange={(e) => setData("query", e.target.value)}
-              className="w-full pl-12 sm:pl-16 pr-4 sm:pr-6 py-4 sm:py-5 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 rounded-t-2xl sm:rounded-l-2xl sm:rounded-t-none transition-all text-base sm:text-lg bg-transparent group-hover:placeholder-gray-600"
+              className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 rounded-t-2xl sm:rounded-l-2xl sm:rounded-t-none transition-all text-base sm:text-lg bg-transparent group-hover:placeholder-gray-600"
               placeholder="Enter institution name, program, or course..."
               disabled={isLoading}
               autoComplete="off"
@@ -528,10 +528,10 @@ export default function Dashboard({ results = [] }) {
           <button
             type="submit"
             disabled={isLoading || !data.query.trim()}
-            className="relative px-6 sm:px-8 py-4 sm:py-5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-b-2xl sm:rounded-r-2xl sm:rounded-b-none transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 sm:space-x-3 text-base sm:text-lg shadow-lg group/btn overflow-hidden"
+            className="relative px-5 sm:px-7 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-b-2xl sm:rounded-r-2xl sm:rounded-b-none transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 sm:space-x-3 text-base sm:text-lg shadow-lg group/btn overflow-hidden"
           >
             {/* Button glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-500 opacity-0 group-hover/btn:opacity-20 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-500 opacity-0 group-hover/btn:opacity-15 transition-opacity duration-300"></div>
             
             {isLoading ? (
               <>
@@ -589,8 +589,6 @@ export default function Dashboard({ results = [] }) {
       </p>
     </div>
   </div>
-
-
 </section>
 
 
@@ -604,7 +602,7 @@ export default function Dashboard({ results = [] }) {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex flex-col lg:flex-row lg:space-x-6">
-            <div className="flex-1 mb-6 lg:mb-0">
+            <div className="flex-1 mb-6 lg:mb-0 max-w-7xl mx-auto">
               {submitted && searchResults.length > 0 ? (
                 <>
                   {/* Enhanced Results Header */}

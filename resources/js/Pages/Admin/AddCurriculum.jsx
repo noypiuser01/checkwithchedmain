@@ -91,14 +91,11 @@ export default function AddCurriculum({ existingCurricula = [], admin }) {
                 <div className="min-h-screen bg-gray-50 py-6">
                     <div className="max-w-7xl mx-auto px-4">
                      {/* Header */}
-                        <div className="mb-6 p-4 rounded-xl border border-gray-200 bg-gray-50 shadow-sm">
-                        <div className="flex items-center space-x-3 mb-2">
-                        <BookOpen className="h-7 w-7 text-blue-600" />
+                        <div className="mb-6">
                         <h1 className="text-2xl font-semibold text-gray-900">
                              Add CHED Memorandum Order (CMO) / Policies, Standards and Guidelines
                         </h1>
-                        </div>
-                        <p className="text-gray-600 text-sm indent-10">
+                        <p className="text-gray-600 text-sm">
                             Create and manage CMO/PSG details with program and course information.
                         </p>
                         </div>

@@ -68,10 +68,10 @@ export default function AdminHeader({ sidebarOpen, setSidebarOpen, admin }) {
                     >
                         <User className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                         <span className="hidden sm:inline">
-                            {admin?.name || 'Admin'}
+                            Admin
                         </span>
                         <span className="sm:hidden">
-                            {admin?.name || 'Admin'}
+                            Admin
                         </span>
                     </button>
 
@@ -100,7 +100,7 @@ export default function AdminHeader({ sidebarOpen, setSidebarOpen, admin }) {
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="text-sm font-medium text-gray-900 truncate">
-                                                    {admin.name || 'Admin'}
+                                                    Admin
                                                 </p>
                                                 <p className="text-xs text-gray-500 truncate">
                                                     {admin.email || 'admin@example.com'}

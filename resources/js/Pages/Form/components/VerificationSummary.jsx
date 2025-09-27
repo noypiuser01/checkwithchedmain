@@ -55,11 +55,13 @@ export default function VerificationSummary({
 								);
 							}
 
-							const hasMetRequirements = cmoReferences.some(ref => {
-								const key = cmoReferences.slice().sort().join('|');
-								const names = programNamesCacheByCmo[ref] || programNamesCacheByCmo[key] || [];
-								const totals = programTotalsCacheByCmo[ref] || programTotalsCacheByCmo[key] || {};
-								const providedMap = programProvidedCacheByCmo[ref] || programProvidedCacheByCmo[key] || {};
+                            const hasMetRequirements = cmoReferences.some(ref => {
+                                // Only consider refs with per-reference data loaded
+                                if (!programNamesCacheByCmo[ref] || !programTotalsCacheByCmo[ref]) return false;
+                                // Use only per-reference caches and deduplicate program names
+                                const names = Array.from(new Set((programNamesCacheByCmo[ref] || []).filter(Boolean)));
+                                const totals = programTotalsCacheByCmo[ref] || {};
+                                const providedMap = programProvidedCacheByCmo[ref] || {};
 								return names.some(name => {
 									const required = Number(lookupUnitsNormalized(totals, name) || 0);
 									const list = collectDisplayedCoursesByProgram(name);
@@ -84,7 +86,7 @@ export default function VerificationSummary({
 										);
 										
 										// Check for missing required units
-										const hasMissingReqUnit = missingReqUnits.some(reqUnit => 
+                                            const hasMissingReqUnit = missingReqUnits.some(reqUnit => 
 											reqUnit.courseCode === course.courseCode && 
 											reqUnit.courseTitle === course.courseTitle &&
 											reqUnit.year === course.year &&
@@ -116,18 +118,20 @@ export default function VerificationSummary({
 
 							if (!hasMetRequirements) return null;
 
-							return (
+                            return (
 								<div>
 									<div className="text-sm text-green-700 mb-1">All Requirements Met</div>
 									{cmoReferences.length === 0 ? (
 										<div className="text-xs text-gray-500">No references selected</div>
 									) : (
 										<div className="space-y-2 text-xs text-gray-900">
-											{cmoReferences.map(ref => {
-												const key = cmoReferences.slice().sort().join('|');
-												const names = programNamesCacheByCmo[ref] || programNamesCacheByCmo[key] || [];
-												const totals = programTotalsCacheByCmo[ref] || programTotalsCacheByCmo[key] || {};
-												const providedMap = programProvidedCacheByCmo[ref] || programProvidedCacheByCmo[key] || {};
+                                            {cmoReferences.map(ref => {
+                                                // Skip refs until per-reference data is present
+                                                if (!programNamesCacheByCmo[ref] || !programTotalsCacheByCmo[ref]) return null;
+                                                // Only use per-reference caches and deduplicate program names
+                                                const names = Array.from(new Set((programNamesCacheByCmo[ref] || []).filter(Boolean)));
+                                                const totals = programTotalsCacheByCmo[ref] || {};
+                                                const providedMap = programProvidedCacheByCmo[ref] || {};
 												const metRequirementsPrograms = names.filter(name => {
 													const required = Number(lookupUnitsNormalized(totals, name) || 0);
 													const list = collectDisplayedCoursesByProgram(name);
@@ -179,12 +183,14 @@ export default function VerificationSummary({
 													});
 													
 													return missing === 0 && !hasMissingNotes;
-												});
-												return metRequirementsPrograms.length > 0 ? (
+                                                });
+                                                // Deduplicate final list by name
+                                                const uniqueMet = Array.from(new Set(metRequirementsPrograms));
+                                                return uniqueMet.length > 0 ? (
 													<div key={`ref-met-${ref}`}>
 														<div className="font-semibold mb-1">{ref}</div>
 														<ul className="list-disc pl-6 space-y-1">
-															{metRequirementsPrograms.map(name => (
+                                                            {uniqueMet.map(name => (
 																	<li key={`ref-met-${ref}-prog-${name}`}>All requirements met for <strong>"{name}"</strong></li>
 																))}
 														</ul>
@@ -285,11 +291,12 @@ export default function VerificationSummary({
 								);
 							}
 
-							const hasMissingUnits = cmoReferences.some(ref => {
-								const key = cmoReferences.slice().sort().join('|');
-								const names = programNamesCacheByCmo[ref] || programNamesCacheByCmo[key] || [];
-								const totals = programTotalsCacheByCmo[ref] || programTotalsCacheByCmo[key] || {};
-								const providedMap = programProvidedCacheByCmo[ref] || programProvidedCacheByCmo[key] || {};
+                            const hasMissingUnits = cmoReferences.some(ref => {
+                                if (!programNamesCacheByCmo[ref] || !programTotalsCacheByCmo[ref]) return false;
+                                // Only use per-reference caches and deduplicate
+                                const names = Array.from(new Set((programNamesCacheByCmo[ref] || []).filter(Boolean)));
+                                const totals = programTotalsCacheByCmo[ref] || {};
+                                const providedMap = programProvidedCacheByCmo[ref] || {};
 								return names.some(name => {
 									const required = Number(lookupUnitsNormalized(totals, name) || 0);
 									const list = collectDisplayedCoursesByProgram(name);
@@ -309,24 +316,27 @@ export default function VerificationSummary({
 										<div className="text-xs text-gray-500">No references selected</div>
 									) : (
 										<div className="space-y-2 text-xs text-gray-900">
-											{cmoReferences.map(ref => {
-												const key = cmoReferences.slice().sort().join('|');
-												const names = programNamesCacheByCmo[ref] || programNamesCacheByCmo[key] || [];
-												const totals = programTotalsCacheByCmo[ref] || programTotalsCacheByCmo[key] || {};
-												const providedMap = programProvidedCacheByCmo[ref] || programProvidedCacheByCmo[key] || {};
-												const missingUnitsPrograms = names.filter(name => {
+                                            {cmoReferences.map(ref => {
+                                                if (!programNamesCacheByCmo[ref] || !programTotalsCacheByCmo[ref]) return null;
+                                                // Only use per-reference caches and deduplicate program names
+                                                const names = Array.from(new Set((programNamesCacheByCmo[ref] || []).filter(Boolean)));
+                                                const totals = programTotalsCacheByCmo[ref] || {};
+                                                const providedMap = programProvidedCacheByCmo[ref] || {};
+                                                const missingUnitsPrograms = names.filter(name => {
 													const required = Number(lookupUnitsNormalized(totals, name) || 0);
 													const list = collectDisplayedCoursesByProgram(name);
 													const { totalUnits } = computeTotals(list);
 													const provided = totalUnits || Number(lookupUnitsNormalized(providedMap, name) || 0);
 													const missing = Math.max(required - provided, 0);
 													return missing > 0;
-												}).sort((a, b) => a.localeCompare(b));
-												return missingUnitsPrograms.length > 0 ? (
+                                                }).sort((a, b) => a.localeCompare(b));
+                                                // Deduplicate final list
+                                                const uniqueMissing = Array.from(new Set(missingUnitsPrograms));
+                                                return uniqueMissing.length > 0 ? (
 													<div key={`ref-${ref}`}>
 														<div className="font-semibold mb-1">{ref}</div>
 														<ul className="list-disc pl-6 space-y-1">
-															{missingUnitsPrograms.map(name => {
+                                                            {uniqueMissing.map(name => {
 																const required = Number(lookupUnitsNormalized(totals, name) || 0);
 																const list = collectDisplayedCoursesByProgram(name);
 																const { totalUnits } = computeTotals(list);
@@ -345,11 +355,6 @@ export default function VerificationSummary({
 								</div>
 							);
 						})()}
-						
-						
-
-						
-
 					</div>
 				);
 			})()}

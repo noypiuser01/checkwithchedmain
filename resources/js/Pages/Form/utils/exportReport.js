@@ -16,7 +16,23 @@ export async function exportCurriculumReport({
 
 	const headerHTML = `
 		<div class="print-header" style="margin-bottom:16px; text-align:center; color:#000;">
-			<div style="font-size:18px;font-weight:700;color:#000;margin-bottom:32px;">Curriculum Verification Report</div>
+			<!-- CHED Header Section -->
+			<div style="margin-bottom:24px;">
+				<div style="display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+					<img src="/images/logo.png" alt="CHED Logo" style="height:64px;width:64px;margin-right:16px;" />
+					<div style="text-align:center;">
+						<h1 style="font-family:'Times New Roman', serif;font-size:16px;font-weight:400;color:#000;text-transform:uppercase;letter-spacing:1px;margin:0;">
+							Commission on Higher Education
+						</h1>
+						<div style="width:100%;height:1px;background-color:#000;margin:4px 0;"></div>
+						<h2 style="font-family:'Times New Roman', serif;font-size:20px;font-weight:700;color:#000;text-transform:uppercase;letter-spacing:1px;margin:0;">
+							Regional Office XII
+						</h2>
+					</div>
+				</div>
+			</div>
+			
+			<div style="font-size:14px;font-weight:700;color:#000;margin-bottom:32px;">CURRICULUM VERIFICATION REPORT</div>
 			<div style="display:flex;justify-content:space-between;max-width:800px;margin:0 auto;">
 				<div style="text-align:left;">
 					<div style="display:flex;font-size:12px;line-height:1;">
@@ -118,7 +134,12 @@ export async function exportCurriculumReport({
 	</style></head><body>${headerHTML}${htmlContent}${footerHTML}</body></html>`);
 	printDoc.close();
 
+	let printExecuted = false;
+	
 	const doPrint = () => {
+		if (printExecuted) return;
+		printExecuted = true;
+		
 		try {
 			const d = iframe.contentDocument || (iframe.contentWindow && iframe.contentWindow.document);
 			if (d) {
@@ -143,16 +164,25 @@ export async function exportCurriculumReport({
 			}
 		} catch (e) {}
 
-		try { iframe.contentWindow.focus(); } catch (e) {}
-		iframe.contentWindow.print();
-		setTimeout(() => { try { document.body.removeChild(iframe); } catch (e) {} }, 500);
+		try { 
+			iframe.contentWindow.focus(); 
+			iframe.contentWindow.print();
+		} catch (e) {}
+		
+		setTimeout(() => { 
+			try { 
+				if (document.body.contains(iframe)) {
+					document.body.removeChild(iframe); 
+				}
+			} catch (e) {} 
+		}, 1000);
 	};
 
+	// Use only one trigger to prevent redundant print dialogs
 	if (iframe.contentWindow) {
 		iframe.onload = doPrint;
-		setTimeout(doPrint, 300);
 	} else {
-		setTimeout(doPrint, 300);
+		setTimeout(doPrint, 500);
 	}
 }
 

@@ -8,8 +8,8 @@ use App\Http\Controllers\UserController;
 use Inertia\Inertia;
 
 
-Route::get('/', fn () => Inertia::render('Dashboard'))->name('dashboard');
-Route::get('/checkwithched', fn () => Inertia::render('Dashboard'))->name('dashboard.alt');
+Route::get('/', fn () => Inertia::render('checkwithched'))->name('dashboard');
+Route::get('/checkwithched', fn () => Inertia::render('checkwithched'))->name('dashboard.alt');
 Route::get('/ched-services', [App\Http\Controllers\ChedServicesController::class, 'index'])->name('ched-services');
 Route::get('/form/cmo-psg', fn () => Inertia::render('Form/CmoPsgForm'))->name('form.cmo-psg');
 

@@ -558,7 +558,7 @@ export default function CmoPsg() {
         };
         return yearMap[year] || [];
     };
-
+	
     const getDisplayedPeriods = () => getDisplayedPeriodsUtil(selectedYear, selectedSemester, orderedYears, trimestralPeriods, parsePeriod);
 
     const collectDisplayedCourses = () => collectDisplayedCoursesUtil(courses, getDisplayedPeriods());
@@ -574,7 +574,7 @@ export default function CmoPsg() {
 	
 		const programInfo = programData.find(p => p.program_name === programName);
 		if (!programInfo) return 0;
-
+		
 		return programInfo.total_units || 0;
 	};
 
@@ -684,7 +684,7 @@ export default function CmoPsg() {
                                     validationErrors={validationErrors}
                                     clearValidationError={clearValidationError}
                                 />
-                            </div>
+                                </div>
 
                             <div className="space-y-6">
                                 <InstitutionProgramForm
@@ -715,8 +715,8 @@ export default function CmoPsg() {
                                     ensureDefaultRowsForAllYearsUpTo={ensureDefaultRowsForAllYearsUpTo}
                                     ensureDefaultRowsForTrimestral={ensureDefaultRowsForTrimestral}
                                 />
-                            </div>
-                            </div>
+                                </div>
+                                </div>
                                 <CourseTable
                                     buildPeriodsToShow={buildPeriodsToShow}
                                     parsePeriod={parsePeriod}
@@ -738,39 +738,39 @@ export default function CmoPsg() {
                                     setReferenceNo={setReferenceNo}
                                     setShowVerifyModal={setShowVerifyModal}
                             />
+                                                                    </div>
+                                                                    </div>
+                                </div>
                             </div>
-                            </div>
-                        </div>
-                        </div>
-                        {showVerifyModal ? (
-                            <VerifyModal
-                                isOpen={showVerifyModal}
-                                onClose={() => setShowVerifyModal(false)}
-                                modalContentRef={modalContentRef}
-                                facultyName={facultyName}
-                                position={position}
-                                selectedInstitution={selectedInstitution}
-                                programName={programName}
-                                referenceNo={referenceNo}
-                                orderedYears={orderedYears}
-                                getYearSemesters={getYearSemesters}
-                                collectDisplayedCourses={collectDisplayedCourses}
-                                validateUnitsPerSemester={validateUnitsPerSemester}
-                                cmoReferences={cmoReferences}
-                                programNamesLoadingKey={programNamesLoadingKey}
-                                programTotalsLoadingKey={programTotalsLoadingKey}
-                                programProvidedLoadingKey={programProvidedLoadingKey}
-                                programNamesCacheByCmo={programNamesCacheByCmo}
-                                programTotalsCacheByCmo={programTotalsCacheByCmo}
-                                programProvidedCacheByCmo={programProvidedCacheByCmo}
-                                collectDisplayedCoursesByProgram={collectDisplayedCoursesByProgram}
-                                checkMissingPrerequisites={checkMissingPrerequisites}
-                                checkMissingReqUnits={checkMissingReqUnits}
-                                checkReqUnitsTotalIssues={checkReqUnitsTotalIssues}
-                                checkCoursesWithExtraUnits={checkCoursesWithExtraUnits}
-                                handleExport={handleExport}
-                                />
-                            ) : null}
-                        </PublicLayout>
-                    );
-                }
+                            {showVerifyModal ? (
+                                <VerifyModal
+                                    isOpen={showVerifyModal}
+                                    onClose={() => setShowVerifyModal(false)}
+                                    modalContentRef={modalContentRef}
+                                    facultyName={facultyName}
+                                    position={position}
+                                    selectedInstitution={selectedInstitution}
+                                    programName={programName}
+                                    referenceNo={referenceNo}
+                                    orderedYears={orderedYears}
+                                    getYearSemesters={getYearSemesters}
+                                    collectDisplayedCourses={collectDisplayedCourses}
+                                    validateUnitsPerSemester={validateUnitsPerSemester}
+                                    cmoReferences={cmoReferences}
+                                    programNamesLoadingKey={programNamesLoadingKey}
+                                    programTotalsLoadingKey={programTotalsLoadingKey}
+                                    programProvidedLoadingKey={programProvidedLoadingKey}
+                                    programNamesCacheByCmo={programNamesCacheByCmo}
+                                    programTotalsCacheByCmo={programTotalsCacheByCmo}
+                                    programProvidedCacheByCmo={programProvidedCacheByCmo}
+                                    collectDisplayedCoursesByProgram={collectDisplayedCoursesByProgram}
+                                    checkMissingPrerequisites={checkMissingPrerequisites}
+                                    checkMissingReqUnits={checkMissingReqUnits}
+                                    checkReqUnitsTotalIssues={checkReqUnitsTotalIssues}
+                                    checkCoursesWithExtraUnits={checkCoursesWithExtraUnits}
+                                    handleExport={handleExport}
+                />
+            ) : null}
+        </PublicLayout>
+    );
+}

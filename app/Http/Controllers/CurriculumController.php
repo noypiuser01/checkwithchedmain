@@ -382,11 +382,13 @@ class CurriculumController extends Controller
                     'id' => $curriculumGroup->first()->id,
                     'curriculum_name' => $curriculumGroup->first()->curriculum_name,
                     'program_name' => $curriculumGroup->first()->program_name,
+                    'status' => $curriculumGroup->first()->status ?? 'active',
                     'semesters' => $curriculumGroup->map(function($curriculum) {
                         return [
                             'id' => $curriculum->id,
                             'year_level' => $curriculum->year_level,
                             'semester' => $curriculum->semester,
+                            'status' => $curriculum->status ?? 'active',
                             'courses' => $curriculum->courses,
                             'created_at' => $curriculum->created_at,
                             'updated_at' => $curriculum->updated_at
@@ -456,12 +458,38 @@ class CurriculumController extends Controller
         try {
             DB::beginTransaction();
 
-            // Check if curriculum with same name and program already exists
+            // Extract CMO info (number and year) from curriculum name
+            $newCmoInfo = $this->extractCmoInfo($validated['curriculumName']);
+            $newCurriculumYear = $newCmoInfo['year'] ?? $this->extractYearFromCurriculumName($validated['curriculumName']);
+
+            // Find existing curricula with the SAME CMO number (regardless of year) and same program
+            $allProgramCurricula = Curriculum::where('program_name', $validated['programName'])->get();
+            $existingCurricula = $allProgramCurricula->filter(function ($curriculum) use ($newCmoInfo) {
+                if (!$newCmoInfo) return false;
+                $info = $this->extractCmoInfo($curriculum->curriculum_name);
+                return $info && $info['number'] === $newCmoInfo['number'];
+            })->values();
+
+            // Check if curriculum with the EXACT same name and program already exists
             $existingCurriculum = Curriculum::where('curriculum_name', $validated['curriculumName'])
                 ->where('program_name', $validated['programName'])
                 ->first();
 
             if ($existingCurriculum) {
+                // Check if we need to make old curricula inactive based on year
+                if ($newCurriculumYear) {
+                    foreach ($existingCurricula as $existing) {
+                        $existingInfo = $this->extractCmoInfo($existing->curriculum_name);
+                        $existingYear = $existingInfo['year'] ?? $this->extractYearFromCurriculumName($existing->curriculum_name);
+                        if ($existingYear && $newCurriculumYear > $existingYear) {
+                            // New curriculum is newer, make old one inactive
+                            $existing->update(['status' => 'inactive']);
+                        } elseif ($existingYear && $newCurriculumYear < $existingYear) {
+                            // New curriculum is older, make it inactive (handled after create if not exact match)
+                        }
+                    }
+                }
+
                 // If curriculum exists, add courses to it
                 if (!empty($validated['courses'])) {
                     foreach ($validated['courses'] as $courseData) {
@@ -492,13 +520,38 @@ class CurriculumController extends Controller
                     ->with('success', 'Courses added to existing curriculum successfully!');
             }
 
+            // Check if new curriculum should be inactive (older than existing ones)
+            $shouldBeInactive = false;
+            if ($newCurriculumYear && !$existingCurricula->isEmpty()) {
+                foreach ($existingCurricula as $existing) {
+                    $existingInfo = $this->extractCmoInfo($existing->curriculum_name);
+                    $existingYear = $existingInfo['year'] ?? $this->extractYearFromCurriculumName($existing->curriculum_name);
+                    if ($existingYear && $newCurriculumYear < $existingYear) {
+                        $shouldBeInactive = true;
+                        break;
+                    }
+                }
+            }
+
             // Create new curriculum entry
             $curriculum = Curriculum::create([
                 'curriculum_name' => $validated['curriculumName'],
                 'program_name' => $validated['programName'],
                 'year_level' => 'N/A',
                 'semester' => 'N/A',
+                'status' => $shouldBeInactive ? 'inactive' : 'active',
             ]);
+
+            // After creating new curriculum, if it's the newest year among same CMO number, inactivate older ones
+            if ($newCurriculumYear && !$existingCurricula->isEmpty()) {
+                foreach ($existingCurricula as $existing) {
+                    $existingInfo = $this->extractCmoInfo($existing->curriculum_name);
+                    $existingYear = $existingInfo['year'] ?? $this->extractYearFromCurriculumName($existing->curriculum_name);
+                    if ($existingYear && $newCurriculumYear > $existingYear) {
+                        $existing->update(['status' => 'inactive']);
+                    }
+                }
+            }
 
             // Create the courses for this curriculum/semester (if provided)
             if (!empty($validated['courses'])) {
@@ -538,6 +591,26 @@ class CurriculumController extends Controller
                 ? 'Courses added to existing curriculum successfully!' 
                 : 'New curriculum created successfully!';
                 
+            if ($shouldBeInactive) {
+                $message .= ' Note: This curriculum was marked as inactive because a newer version already exists.';
+            }
+            
+            // Check if any older curricula were made inactive
+            $inactivatedCount = 0;
+            if ($newCurriculumYear && !$existingCurricula->isEmpty()) {
+                foreach ($existingCurricula as $existing) {
+                    $existingInfo = $this->extractCmoInfo($existing->curriculum_name);
+                    $existingYear = $existingInfo['year'] ?? $this->extractYearFromCurriculumName($existing->curriculum_name);
+                    if ($existingYear && $newCurriculumYear > $existingYear) {
+                        $inactivatedCount++;
+                    }
+                }
+            }
+            
+            if ($inactivatedCount > 0) {
+                $message .= " Note: {$inactivatedCount} older CMO(s) with the same program have been marked as inactive.";
+            }
+                
             return redirect('/admin/CurriculumList')
                 ->with('success', $message);
 
@@ -547,41 +620,7 @@ class CurriculumController extends Controller
         }
     }
 
-    // /**
-    //  * Display the specified curriculum.
-    //  */
-    // public function show(Curriculum $curriculum)
-    // {
-    //     $curriculum->load('courses');
-        
-    //     return Inertia::render('Admin/CurriculumShow', [
-    //         'curriculum' => $curriculum
-    //     ]);
-    // }
 
-    // /**
-    //  * Display the specified curriculum in view mode.
-    //  */
-    // public function view(Curriculum $curriculum)
-    // {
-    //     $curriculum->load('courses');
-        
-    //     return Inertia::render('Admin/View', [
-    //         'curriculum' => $curriculum
-    //     ]);
-    // }
-
-    // /**
-    //  * Show the form for editing the specified curriculum.
-    //  */
-    // public function edit(Curriculum $curriculum)
-    // {
-    //     $curriculum->load('courses');
-        
-    //     return Inertia::render('Admin/EditCurriculum', [
-    //         'curriculum' => $curriculum
-    //     ]);
-    // }
 
    /**
  * Update the specified curriculum in storage.
@@ -604,10 +643,41 @@ public function update(Request $request, Curriculum $curriculum)
     try {
         DB::beginTransaction();
 
+        // Extract CMO info (number and year) from curriculum name for comparison
+        $newCmoInfo = $this->extractCmoInfo($validated['curriculumName']);
+        $newCurriculumYear = $newCmoInfo['year'] ?? $this->extractYearFromCurriculumName($validated['curriculumName']);
+        
+        // Check if we need to update status based on year comparison
+        $shouldBeInactive = false;
+        if ($newCurriculumYear) {
+            // Find other curricula with the SAME CMO number (regardless of year) and same program
+            $allProgramCurricula = Curriculum::where('program_name', $validated['programName'])
+                ->where('id', '!=', $curriculum->id)
+                ->get();
+            $otherCurricula = $allProgramCurricula->filter(function ($c) use ($newCmoInfo) {
+                if (!$newCmoInfo) return false;
+                $info = $this->extractCmoInfo($c->curriculum_name);
+                return $info && $info['number'] === $newCmoInfo['number'];
+            })->values();
+                
+            foreach ($otherCurricula as $other) {
+                $otherInfo = $this->extractCmoInfo($other->curriculum_name);
+                $otherYear = $otherInfo['year'] ?? $this->extractYearFromCurriculumName($other->curriculum_name);
+                if ($otherYear && $newCurriculumYear < $otherYear) {
+                    $shouldBeInactive = true;
+                    break;
+                } elseif ($otherYear && $newCurriculumYear > $otherYear) {
+                    // Make the other curriculum inactive
+                    $other->update(['status' => 'inactive']);
+                }
+            }
+        }
+
         // Update the curriculum
         $curriculum->update([
             'curriculum_name' => $validated['curriculumName'],
             'program_name' => $validated['programName'],
+            'status' => $shouldBeInactive ? 'inactive' : 'active',
         ]);
 
         // Delete existing courses and create new ones
@@ -639,8 +709,39 @@ public function update(Request $request, Curriculum $curriculum)
 
         DB::commit();
 
+        $message = 'Curriculum updated successfully!';
+        if ($shouldBeInactive) {
+            $message .= ' Note: This curriculum was marked as inactive because a newer version already exists.';
+        }
+        
+        // Check if any other curricula were made inactive
+        $inactivatedCount = 0;
+        if ($newCurriculumYear) {
+            // Find other curricula with the SAME CMO number (regardless of year) and same program
+            $allProgramCurricula = Curriculum::where('program_name', $validated['programName'])
+                ->where('id', '!=', $curriculum->id)
+                ->get();
+            $otherCurricula = $allProgramCurricula->filter(function ($c) use ($newCmoInfo) {
+                if (!$newCmoInfo) return false;
+                $info = $this->extractCmoInfo($c->curriculum_name);
+                return $info && $info['number'] === $newCmoInfo['number'];
+            })->values();
+                
+            foreach ($otherCurricula as $other) {
+                $otherInfo = $this->extractCmoInfo($other->curriculum_name);
+                $otherYear = $otherInfo['year'] ?? $this->extractYearFromCurriculumName($other->curriculum_name);
+                if ($otherYear && $newCurriculumYear > $otherYear) {
+                    $inactivatedCount++;
+                }
+            }
+        }
+        
+        if ($inactivatedCount > 0) {
+            $message .= " Note: {$inactivatedCount} older CMO(s) with the same program have been marked as inactive.";
+        }
+
         return redirect()->route('admin.curriculum-list')
-            ->with('success', 'Curriculum updated successfully!');
+            ->with('success', $message);
 
     } catch (\Exception $e) {
         DB::rollBack();
@@ -852,5 +953,39 @@ public function update(Request $request, Curriculum $curriculum)
         
         // If this curriculum has the highest year, it's active
         return $currentCMO['year'] === $highestYear;
+    }
+
+    /**
+     * Extract year from curriculum name (e.g., "CMO No. 39 Series of 2021" -> 2021)
+     */
+    private function extractYearFromCurriculumName($curriculumName)
+    {
+        // Updated pattern to handle "CMO. No 27" format (with period after CMO)
+        // Examples: "CMO No. 39 Series of 2021", "CMO 39 s. 2021", "CMO. No 27 Series of 2015"
+        $pattern = '/CMO\.?\s*No\.?\s*\d+.*?(\d{4})/i';
+        
+        if (preg_match($pattern, $curriculumName, $matches)) {
+            return (int) $matches[1];
+        }
+        
+        return null;
+    }
+
+    /**
+     * Extract CMO number and year from curriculum name.
+     * Returns ['number' => int, 'year' => int] or null if not matched.
+     * Handles variants like: "CMO No. 39 Series of 2021", "CMO 39 s. 2021"
+     */
+    private function extractCmoInfo($curriculumName)
+    {
+        // Updated pattern to handle "CMO. No 27" format (with period after CMO)
+        $pattern = '/CMO\.?\s*(?:No\.?\s*)?(\d+)\D+?(\d{4})/i';
+        if (preg_match($pattern, $curriculumName, $matches)) {
+            return [
+                'number' => (int) $matches[1],
+                'year' => (int) $matches[2],
+            ];
+        }
+        return null;
     }
 }

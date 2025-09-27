@@ -6,8 +6,8 @@ import { Shield, Lock, Eye, EyeOff, LogIn, LoaderCircle, AlertCircle, CheckCircl
 
 export default function AdminLogin({ status, canResetPassword, errors: serverErrors }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "admin@ched.gov.ph",
-        password: "admin123",
+        email: "",
+        password: "",
         remember: false,
     });
 
