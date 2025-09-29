@@ -1,5 +1,4 @@
 // Helper functions extracted from CmoPsgForm.jsx
-
 export const parsePeriod = (label) => {
 	if (!label) return { year: '', semester: '' };
 	if (label.includes('Trimester') && !label.includes('Year')) {

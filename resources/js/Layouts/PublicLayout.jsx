@@ -168,10 +168,10 @@ export default function PublicLayout({ header, children }) {
                             label="Check With Ched"
                         />
                         <NavButton
-                            isActive={window.location.pathname === '/form/cmo-psg'}
-                            onClick={() => router.visit('/form/cmo-psg')}
+                            isActive={window.location.pathname === '/curriculum-verification'}
+                            onClick={() => router.visit('/curriculum-verification')}
                             icon={FileText}
-                            label="Curriculum Verefication"
+                            label="Curriculum Verification"
                         />
                     </div>
                 </div>
@@ -201,13 +201,13 @@ export default function PublicLayout({ header, children }) {
                             Check With Ched
                         </button>
                         <button
-                            onClick={() => { setSidebarOpen(false); router.visit('/form/cmo-psg'); }}
+                            onClick={() => { setSidebarOpen(false); router.visit('/curriculum-verification'); }}
                             className={`w-full text-left inline-flex items-center px-4 py-3 rounded-lg ${
-                                window.location.pathname === '/form/cmo-psg' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
+                                window.location.pathname === '/curriculum-verification' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
                             }`}
                         >
-                            <FileText className={`h-5 w-5 mr-3 ${window.location.pathname === '/form/cmo-psg' ? 'text-blue-600' : 'text-gray-400'}`} />
-                            CMO/PSG Form
+                            <FileText className={`h-5 w-5 mr-3 ${window.location.pathname === '/curriculum-verification' ? 'text-blue-600' : 'text-gray-400'}`} />
+                            Curriculum Verification
                         </button>
                     </div>
                 </div>
@@ -215,11 +215,17 @@ export default function PublicLayout({ header, children }) {
             <main className="flex-grow">{children}</main>
 
             <footer className="bg-white border-t border-gray-200 text-center py-3 sm:py-4 px-4">
-                <p className="text-xs sm:text-sm text-gray-600">
+                <div className="text-xs sm:text-sm text-gray-600 mb-1">
+                    CHED Regional Office XII, Regional Center, Brgy. Carpenter Hill, Koronadal City, South Cotabato, Philippines
+                </div>
+                <div className="text-xs text-gray-500">
+                    Tel. No.: (083) 228-1130 | Email: chedro12@ched.gov.ph / Website: ched.gov.ph
+                </div>
+                {/* <div className="text-xs text-gray-500 mt-2">
                     © {new Date().getFullYear()} 
                     <span className="hidden sm:inline"> Commission on Higher Education - Region XII / CheckWithChed.</span>
                     <span className="sm:hidden"> CHED Region XII / CheckWithChed.</span>
-                </p>
+                </div> */}
             </footer>
         </div>
     );

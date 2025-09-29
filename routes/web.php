@@ -8,10 +8,10 @@ use App\Http\Controllers\UserController;
 use Inertia\Inertia;
 
 
-Route::get('/', fn () => Inertia::render('checkwithched'))->name('dashboard');
-Route::get('/checkwithched', fn () => Inertia::render('checkwithched'))->name('dashboard.alt');
+Route::get('/', fn () => Inertia::render('CheckWithChed/index'))->name('dashboard');
+Route::get('/checkwithched', fn () => Inertia::render('CheckWithChed/index'))->name('dashboard.alt');
 Route::get('/ched-services', [App\Http\Controllers\ChedServicesController::class, 'index'])->name('ched-services');
-Route::get('/form/cmo-psg', fn () => Inertia::render('Curriculum Verification/CmoPsgForm'))->name('form.cmo-psg');
+Route::get('/curriculum-verification', fn () => Inertia::render('Curriculum Verification/CmoPsgForm'))->name('curriculum.verification');
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 

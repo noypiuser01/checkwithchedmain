@@ -11,6 +11,7 @@ import { validateRequiredFields as validateRequiredFieldsUtil, clearValidationEr
 import { getFilteredInstitutions as getFilteredInstitutionsUtil } from './utils/institutions';
 import { fetchCurricula as apiFetchCurricula, fetchHeis, fetchCmoCategories, fetchCmoProgramNames, fetchCmoProgramTotals, fetchCurriculumProgramTotals, fetchCmoProgramCourses, fetchCourseCodeByTitle, fetchCourseDetailsByTitle, fetchCourseDetailsByCode, fetchCmoCategoryTitles, postCurriculumReport } from './services/api';
 import VerifyModal from './components/VerifyModal';
+import TrimestralVerifyModal from './components/TrimestralVerifyModal';
 import { useCmoFetchers } from './hooks/useCmoPsgForm';
 import { exportCurriculumReport } from './utils/exportReport';
 import SemesterEditor from './components/SemesterEditor';
@@ -743,34 +744,63 @@ export default function CmoPsg() {
                                 </div>
                             </div>
                             {showVerifyModal ? (
-                                <VerifyModal
-                                    isOpen={showVerifyModal}
-                                    onClose={() => setShowVerifyModal(false)}
-                                    modalContentRef={modalContentRef}
-                                    facultyName={facultyName}
-                                    position={position}
-                                    selectedInstitution={selectedInstitution}
-                                    programName={programName}
-                                    referenceNo={referenceNo}
-                                    orderedYears={orderedYears}
-                                    getYearSemesters={getYearSemesters}
-                                    collectDisplayedCourses={collectDisplayedCourses}
-                                    validateUnitsPerSemester={validateUnitsPerSemester}
-                                    cmoReferences={cmoReferences}
-                                    programNamesLoadingKey={programNamesLoadingKey}
-                                    programTotalsLoadingKey={programTotalsLoadingKey}
-                                    programProvidedLoadingKey={programProvidedLoadingKey}
-                                    programNamesCacheByCmo={programNamesCacheByCmo}
-                                    programTotalsCacheByCmo={programTotalsCacheByCmo}
-                                    programProvidedCacheByCmo={programProvidedCacheByCmo}
-                                    collectDisplayedCoursesByProgram={collectDisplayedCoursesByProgram}
-                                    checkMissingPrerequisites={checkMissingPrerequisites}
-                                    checkMissingReqUnits={checkMissingReqUnits}
-                                    checkReqUnitsTotalIssues={checkReqUnitsTotalIssues}
-                                    checkCoursesWithExtraUnits={checkCoursesWithExtraUnits}
-                                    handleExport={handleExport}
-                />
-            ) : null}
+                                selectedSemester === '2nd Semester' ? (
+                                    <TrimestralVerifyModal
+                                        isOpen={showVerifyModal}
+                                        onClose={() => setShowVerifyModal(false)}
+                                        modalContentRef={modalContentRef}
+                                        facultyName={facultyName}
+                                        position={position}
+                                        selectedInstitution={selectedInstitution}
+                                        programName={programName}
+                                        referenceNo={referenceNo}
+                                        orderedYears={orderedYears}
+                                        collectDisplayedCourses={collectDisplayedCourses}
+                                        validateUnitsPerSemester={validateUnitsPerSemester}
+                                        cmoReferences={cmoReferences}
+                                        programNamesLoadingKey={programNamesLoadingKey}
+                                        programTotalsLoadingKey={programTotalsLoadingKey}
+                                        programProvidedLoadingKey={programProvidedLoadingKey}
+                                        programNamesCacheByCmo={programNamesCacheByCmo}
+                                        programTotalsCacheByCmo={programTotalsCacheByCmo}
+                                        programProvidedCacheByCmo={programProvidedCacheByCmo}
+                                        collectDisplayedCoursesByProgram={collectDisplayedCoursesByProgram}
+                                        checkMissingPrerequisites={checkMissingPrerequisites}
+                                        checkMissingReqUnits={checkMissingReqUnits}
+                                        checkReqUnitsTotalIssues={checkReqUnitsTotalIssues}
+                                        checkCoursesWithExtraUnits={checkCoursesWithExtraUnits}
+                                        handleExport={handleExport}
+                                    />
+                                ) : (
+                                    <VerifyModal
+                                        isOpen={showVerifyModal}
+                                        onClose={() => setShowVerifyModal(false)}
+                                        modalContentRef={modalContentRef}
+                                        facultyName={facultyName}
+                                        position={position}
+                                        selectedInstitution={selectedInstitution}
+                                        programName={programName}
+                                        referenceNo={referenceNo}
+                                        orderedYears={orderedYears}
+                                        getYearSemesters={getYearSemesters}
+                                        collectDisplayedCourses={collectDisplayedCourses}
+                                        validateUnitsPerSemester={validateUnitsPerSemester}
+                                        cmoReferences={cmoReferences}
+                                        programNamesLoadingKey={programNamesLoadingKey}
+                                        programTotalsLoadingKey={programTotalsLoadingKey}
+                                        programProvidedLoadingKey={programProvidedLoadingKey}
+                                        programNamesCacheByCmo={programNamesCacheByCmo}
+                                        programTotalsCacheByCmo={programTotalsCacheByCmo}
+                                        programProvidedCacheByCmo={programProvidedCacheByCmo}
+                                        collectDisplayedCoursesByProgram={collectDisplayedCoursesByProgram}
+                                        checkMissingPrerequisites={checkMissingPrerequisites}
+                                        checkMissingReqUnits={checkMissingReqUnits}
+                                        checkReqUnitsTotalIssues={checkReqUnitsTotalIssues}
+                                        checkCoursesWithExtraUnits={checkCoursesWithExtraUnits}
+                                        handleExport={handleExport}
+                                    />
+                                )
+                            ) : null}
         </PublicLayout>
     );
 }

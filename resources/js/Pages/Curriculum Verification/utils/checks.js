@@ -6,9 +6,19 @@ export const checkMissingPrerequisites = (collectDisplayedCourses, coursePrerequ
 	const missingPrerequisites = [];
 
 	const getSemesterIndex = (year, semester) => {
+		// Handle Trimestral mode
+		if (semester && semester.includes('Trimester')) {
+			const trimesterIndex = semester === '1st Trimester' ? 0 : semester === '2nd Trimester' ? 1 : 2;
+			console.log(`🔍 Trimestral mode: ${semester} -> index ${trimesterIndex}`);
+			return trimesterIndex;
+		}
+		
+		// Handle Semestral mode
 		const yearIndex = orderedYears.indexOf(year);
 		const semesterIndex = semester === '1st Semester' ? 0 : 1;
-		return yearIndex * 2 + semesterIndex;
+		const result = yearIndex * 2 + semesterIndex;
+		console.log(`🔍 Semestral mode: ${year} - ${semester} -> index ${result}`);
+		return result;
 	};
 
 	allCourses.forEach(course => {
@@ -19,7 +29,10 @@ export const checkMissingPrerequisites = (collectDisplayedCourses, coursePrerequ
 			if (dbPrereq) {
 				const prereqCode = dbPrereq.split(' ')[0];
 				const prereqCourse = allCourses.find(c => c.courseCode?.trim().toLowerCase() === prereqCode.toLowerCase());
+				console.log(`🔍 Checking prerequisite for ${courseCode}: looking for ${prereqCode}, found:`, prereqCourse ? 'YES' : 'NO');
+				
 				if (!prereqCourse) {
+					console.log(`❌ Missing prerequisite: ${courseCode} needs ${prereqCode}`);
 					missingPrerequisites.push({
 						courseCode: courseCode,
 						courseTitle: course.courseTitle,
@@ -33,7 +46,10 @@ export const checkMissingPrerequisites = (collectDisplayedCourses, coursePrerequ
 				} else {
 					const courseSemesterIndex = getSemesterIndex(course.year, course.semester);
 					const prereqSemesterIndex = getSemesterIndex(prereqCourse.year, prereqCourse.semester);
+					console.log(`🔍 Prerequisite order check: course at index ${courseSemesterIndex}, prereq at index ${prereqSemesterIndex}`);
+					
 					if (prereqSemesterIndex >= courseSemesterIndex) {
+						console.log(`❌ Prerequisite order issue: ${prereqCode} (${prereqCourse.semester}) should come before ${courseCode} (${course.semester})`);
 						missingPrerequisites.push({
 							courseCode: courseCode,
 							courseTitle: course.courseTitle,
@@ -46,6 +62,8 @@ export const checkMissingPrerequisites = (collectDisplayedCourses, coursePrerequ
 							issue: 'order',
 							source: 'database'
 						});
+					} else {
+						console.log(`✅ Prerequisite order OK: ${prereqCode} (${prereqCourse.semester}) comes before ${courseCode} (${course.semester})`);
 					}
 				}
 			}
