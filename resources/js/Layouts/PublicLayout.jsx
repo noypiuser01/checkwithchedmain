@@ -1,7 +1,7 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect, useRef } from 'react';
-import { Home, FileText, X } from 'lucide-react';
+import { Search, FileText, X } from 'lucide-react';
 import { router } from '@inertiajs/react';
 
 export default function PublicLayout({ header, children }) {
@@ -164,7 +164,7 @@ export default function PublicLayout({ header, children }) {
                         <NavButton
                             isActive={window.location.pathname === '/checkwithched'}
                             onClick={() => router.visit('/checkwithched')}
-                            icon={Home}
+                            icon={Search}
                             label="Check With Ched"
                         />
                         <NavButton
@@ -197,7 +197,7 @@ export default function PublicLayout({ header, children }) {
                                 window.location.pathname === '/checkwithched' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
                             }`}
                         >
-                            <Home className={`h-5 w-5 mr-3 ${window.location.pathname === '/checkwithched' ? 'text-blue-600' : 'text-gray-400'}`} />
+                            <Search className={`h-5 w-5 mr-3 ${window.location.pathname === '/checkwithched' ? 'text-blue-600' : 'text-gray-400'}`} />
                             Check With Ched
                         </button>
                         <button

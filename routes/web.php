@@ -11,7 +11,7 @@ use Inertia\Inertia;
 Route::get('/', fn () => Inertia::render('checkwithched'))->name('dashboard');
 Route::get('/checkwithched', fn () => Inertia::render('checkwithched'))->name('dashboard.alt');
 Route::get('/ched-services', [App\Http\Controllers\ChedServicesController::class, 'index'])->name('ched-services');
-Route::get('/form/cmo-psg', fn () => Inertia::render('Form/CmoPsgForm'))->name('form.cmo-psg');
+Route::get('/form/cmo-psg', fn () => Inertia::render('Curriculum Verification/CmoPsgForm'))->name('form.cmo-psg');
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 

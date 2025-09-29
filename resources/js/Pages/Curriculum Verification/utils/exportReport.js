@@ -36,36 +36,36 @@ export async function exportCurriculumReport({
 			<div style="display:flex;justify-content:space-between;max-width:800px;margin:0 auto;">
 				<div style="text-align:left;">
 					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;">Faculty Name</span>
-						<span style="width:8px;text-align:center;">:</span>
-						<span style="margin-left:4px;color:#000;">${facultyName || 'Not specified'}</span>
+						<span style="font-weight:600;color:#000;width:100px;">NAME</span>
+						<span style="color:#000;">:</span>
+						<span style="color:#000;margin-left:4px;">${facultyName || 'Not specified'}</span>
 					</div>
 					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;">Position</span>
-						<span style="width:8px;text-align:center;">:</span>
-						<span style="margin-left:4px;color:#000;">${position || 'Not specified'}</span>
+						<span style="font-weight:600;color:#000;width:100px;">POSITION</span>
+						<span style="color:#000;">:</span>
+						<span style="color:#000;margin-left:4px;">${position || 'Not specified'}</span>
 					</div>
 					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;">Institute</span>
-						<span style="width:8px;text-align:center;">:</span>
-						<span style="margin-left:4px;color:#000;">${selectedInstitution || 'Not specified'}</span>
+						<span style="font-weight:600;color:#000;width:100px;">INSTITUTE</span>
+						<span style="color:#000;">:</span>
+						<span style="color:#000;margin-left:4px;">${selectedInstitution || 'Not specified'}</span>
 					</div>
 				</div>
 				<div style="text-align:left;">
 					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;">Program Name</span>
-						<span style="width:8px;text-align:center;">:</span>
-						<span style="margin-left:4px;color:#000;">${programName || 'Not specified'}</span>
+						<span style="font-weight:600;color:#000;width:120px;">PROGRAM NAME</span>
+						<span style="color:#000;">:</span>
+						<span style="color:#000;margin-left:4px;">${programName || 'Not specified'}</span>
 					</div>
 					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;">References No.</span>
-						<span style="width:8px;text-align:center;">:</span>
-						<span style="margin-left:4px;color:#000;">${referenceNo || ''}</span>
+						<span style="font-weight:600;color:#000;width:120px;">REFERENCES NO.</span>
+						<span style="color:#000;">:</span>
+						<span style="color:#000;margin-left:4px;">${referenceNo || ''}</span>
 					</div>
 					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;">Date Generated</span>
-						<span style="width:8px;text-align:center;">:</span>
-						<span style="margin-left:4px;color:#000;">${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+						<span style="font-weight:600;color:#000;width:120px;">DATE GENERATED</span>
+						<span style="color:#000;">:</span>
+						<span style="color:#000;margin-left:4px;">${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
 					</div>
 				</div>
 			</div>
