@@ -18,53 +18,45 @@ export async function exportCurriculumReport({
 		<div class="print-header" style="margin-bottom:16px; text-align:center; color:#000;">
 			<!-- CHED Header Section -->
 			<div style="margin-bottom:24px;">
-				<div style="display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-					<img src="/images/logo1.png" alt="CHED Logo" style="height:64px;width:64px;margin-right:16px;" />
-					<div style="text-align:center;">
-						<h1 style="font-family:'Times New Roman', serif;font-size:16px;font-weight:400;color:#000;text-transform:uppercase;letter-spacing:1px;margin:0;">
-							Commission on Higher Education
-						</h1>
-						<div style="width:100%;height:1px;background-color:#000;margin:4px 0;"></div>
-						<h2 style="font-family:'Times New Roman', serif;font-size:20px;font-weight:700;color:#000;text-transform:uppercase;letter-spacing:1px;margin:0;">
-							Regional Office XII
-						</h2>
-					</div>
+				<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+					<img src="/images/1.png" alt="CHED Logo Left" style="height:60px;width:auto;" />
+					<img src="/images/2.png" alt="CHED Logo Right" style="height:60px;width:auto;" />
 				</div>
 			</div>
 			
-			<div style="font-size:14px;font-weight:700;color:#000;margin-bottom:32px;">CURRICULUM VERIFICATION REPORT</div>
-			<div style="display:flex;justify-content:space-between;max-width:800px;margin:0 auto;">
+			<div style="font-size:14px;font-weight:700;color:#000;margin-bottom:32px;margin:0 8px 32px 8px;">CURRICULUM VERIFICATION REPORT</div>
+			<div style="display:flex;justify-content:space-between;max-width:800px;margin:0 8px;">
 				<div style="text-align:left;">
-					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;width:100px;">NAME</span>
-						<span style="color:#000;">:</span>
+					<div style="display:flex;font-size:12px;line-height:1.2;margin-bottom:2px;">
+						<span style="font-weight:600;color:#000;width:60px;display:inline-block;">NAME</span>
+						<span style="color:#000;width:8px;text-align:center;">:</span>
 						<span style="color:#000;margin-left:4px;">${facultyName || 'Not specified'}</span>
 					</div>
-					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;width:100px;">POSITION</span>
-						<span style="color:#000;">:</span>
+					<div style="display:flex;font-size:12px;line-height:1.2;margin-bottom:2px;">
+						<span style="font-weight:600;color:#000;width:60px;display:inline-block;">POSITION</span>
+						<span style="color:#000;width:8px;text-align:center;">:</span>
 						<span style="color:#000;margin-left:4px;">${position || 'Not specified'}</span>
 					</div>
-					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;width:100px;">INSTITUTE</span>
-						<span style="color:#000;">:</span>
+					<div style="display:flex;font-size:12px;line-height:1.2;margin-bottom:2px;">
+						<span style="font-weight:600;color:#000;width:60px;display:inline-block;">INSTITUTE</span>
+						<span style="color:#000;width:8px;text-align:center;">:</span>
 						<span style="color:#000;margin-left:4px;">${selectedInstitution || 'Not specified'}</span>
 					</div>
 				</div>
 				<div style="text-align:left;">
-					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;width:120px;">PROGRAM NAME</span>
-						<span style="color:#000;">:</span>
+					<div style="display:flex;font-size:12px;line-height:1.2;margin-bottom:2px;">
+						<span style="font-weight:600;color:#000;width:100px;display:inline-block;">PROGRAM NAME</span>
+						<span style="color:#000;width:8px;text-align:center;">:</span>
 						<span style="color:#000;margin-left:4px;">${programName || 'Not specified'}</span>
 					</div>
-					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;width:120px;">REFERENCES NO.</span>
-						<span style="color:#000;">:</span>
+					<div style="display:flex;font-size:12px;line-height:1.2;margin-bottom:2px;">
+						<span style="font-weight:600;color:#000;width:100px;display:inline-block;">REFERENCES NO.</span>
+						<span style="color:#000;width:8px;text-align:center;">:</span>
 						<span style="color:#000;margin-left:4px;">${referenceNo || ''}</span>
 					</div>
-					<div style="display:flex;font-size:12px;line-height:1;">
-						<span style="font-weight:600;color:#000;width:120px;">DATE GENERATED</span>
-						<span style="color:#000;">:</span>
+					<div style="display:flex;font-size:12px;line-height:1.2;margin-bottom:2px;">
+						<span style="font-weight:600;color:#000;width:100px;display:inline-block;">DATE GENERATED</span>
+						<span style="color:#000;width:8px;text-align:center;">:</span>
 						<span style="color:#000;margin-left:4px;">${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
 					</div>
 				</div>
@@ -112,10 +104,10 @@ export async function exportCurriculumReport({
 	printDoc.write(`<!doctype html><html><head><meta charset="utf-8"/><style>
 		@page { margin: 24px; }
 		body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#000;font-size:12px;line-height:1.4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-		h1,h2,h3{margin:0 0 8px;color:#000}
-		table{width:100%;border-collapse:collapse;color:#000}
+		h1,h2,h3{margin:0 8px 8px 8px;color:#000}
+		table{width:calc(100% - 10px);border-collapse:collapse;color:#000;margin:0 8px}
 		table + table{margin-top:16px}
-		th,td{border:1px solid #111;padding:6px;vertical-align:top;color:#000}
+		th,td{border:1px solid #111;padding:4px;vertical-align:top;color:#000;font-size:11px}
 		thead tr{background:#fff !important;color:#000 !important}
 		thead tr:first-child{background:#000 !important;color:#fff !important}
 		thead tr:nth-child(2){background:#f3f4f6 !important;color:#000 !important}
@@ -129,7 +121,8 @@ export async function exportCurriculumReport({
 		.text-center{text-align:center}
 		.no-print-title{display:none}
 		.no-print{display:none !important}
-		ul{margin:0;padding-left:16px}
+		ul{margin:0 8px;padding-left:16px}
+		div{margin:0 8px}
 		.print-footer{page-break-inside:avoid;}
 	</style></head><body>${headerHTML}${htmlContent}${footerHTML}</body></html>`);
 	printDoc.close();

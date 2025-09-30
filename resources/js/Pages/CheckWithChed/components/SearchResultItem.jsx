@@ -3,11 +3,13 @@ import React from 'react';
 export default function SearchResultItem({ 
     item, 
     programs, 
-    onOpenModal 
+    onOpenModal,
+    onToggleExpanded
 }) {
     const toggleExpanded = () => {
-        // This would need to be handled by parent component
-        // For now, we'll pass it as a prop
+        if (onToggleExpanded) {
+            onToggleExpanded(item.code);
+        }
     };
 
     return (
@@ -68,7 +70,7 @@ export default function SearchResultItem({
                                                         prog: typeof prog === 'object' ? prog : null,
                                                     })
                                                 }
-                                                className="w-full sm:w-auto sm:ml-4 px-3 py-1 text-xs font-medium bg-blue-500 text-white rounded-full hover:bg-blue-600 hover:shadow-md transition-all duration-200 transform hover:scale-105"
+                                                className="relative inline-flex items-center justify-center font-medium cursor-pointer appearance-none outline-none user-select-none transition-all duration-75 transform-gpu bg-gradient-to-b from-[#3C67B6] to-[#2B5299] text-white border border-solid border-[#21417A] border-b-[4px] border-b-[#193563] shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_1px_0_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.06)] hover:bg-gradient-to-b hover:from-[#3A60AD] hover:to-[#2A4F92] active:bg-gradient-to-b active:from-[#274885] active:to-[#213D73] active:shadow-[0_0_0_1px_rgba(0,0,0,0.1)_inset,0_1px_2px_rgba(0,0,0,0.12)_inset] active:translate-y-[1px] active:scale-[0.98] active:border-b active:border-t-[4px] active:border-t-[#193563] focus:outline-none disabled:bg-gradient-to-b disabled:from-[#f6f6f7] disabled:to-[#f6f6f7] disabled:text-[#b9bec7] disabled:border-[#d9d9d9] disabled:border-b-[4px] disabled:border-b-[#d9d9d9] disabled:shadow-none disabled:cursor-not-allowed text-xs min-h-[1.5rem] px-3 py-1 rounded-full w-full sm:w-auto sm:ml-4"
                                             >
                                                 View
                                             </button>

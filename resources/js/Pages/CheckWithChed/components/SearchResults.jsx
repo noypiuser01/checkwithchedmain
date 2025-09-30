@@ -5,7 +5,8 @@ export default function SearchResults({
     searchResults, 
     programs, 
     onFetchPrograms, 
-    onOpenModal 
+    onOpenModal,
+    onToggleExpanded
 }) {
     if (searchResults.length === 0) {
         return null;
@@ -24,6 +25,7 @@ export default function SearchResults({
                         item={item}
                         programs={programs[item.code]}
                         onOpenModal={onOpenModal}
+                        onToggleExpanded={onToggleExpanded}
                     />
                 );
             })}

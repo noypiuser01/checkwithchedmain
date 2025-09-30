@@ -55,6 +55,80 @@ export default function VerificationSummary({
 								);
 							}
 
+							// Check if ALL selected CMO references are fully met
+							const allRefsFullyMet = cmoReferences.every(ref => {
+								// Only consider refs with per-reference data loaded
+								if (!programNamesCacheByCmo[ref] || !programTotalsCacheByCmo[ref]) return false;
+								// Use only per-reference caches and deduplicate program names
+								const names = Array.from(new Set((programNamesCacheByCmo[ref] || []).filter(Boolean)));
+								const totals = programTotalsCacheByCmo[ref] || {};
+								const providedMap = programProvidedCacheByCmo[ref] || {};
+								
+								// Check if ALL programs in this reference are fully met
+								return names.every(name => {
+									const required = Number(lookupUnitsNormalized(totals, name) || 0);
+									const list = collectDisplayedCoursesByProgram(name);
+									const { totalUnits } = computeTotals(list);
+									const provided = totalUnits || Number(lookupUnitsNormalized(providedMap, name) || 0);
+									const missing = Math.max(required - provided, 0);
+									
+									// Check if there are any missing notes for this program
+									const missingPrereqs = checkMissingPrerequisites();
+									const missingReqUnits = checkMissingReqUnits();
+									const reqTotalIssues = checkReqUnitsTotalIssues();
+									const extraUnitsCourses = checkCoursesWithExtraUnits().sort((a, b) => a.courseCode.localeCompare(b.courseCode));
+									
+									// Check if any courses in this program have missing notes
+									const hasMissingNotes = list.some(course => {
+										// Check for missing prerequisites
+										const hasMissingPrereq = missingPrereqs.some(prereq => 
+											prereq.courseCode === course.courseCode && 
+											prereq.courseTitle === course.courseTitle &&
+											prereq.year === course.year &&
+											prereq.semester === course.semester
+										);
+										
+										// Check for missing required units
+										const hasMissingReqUnit = missingReqUnits.some(reqUnit => 
+											reqUnit.courseCode === course.courseCode && 
+											reqUnit.courseTitle === course.courseTitle &&
+											reqUnit.year === course.year &&
+											reqUnit.semester === course.semester
+										);
+										
+										// Check for total units issues
+										const hasTotalIssue = reqTotalIssues.some(totalIssue => 
+											totalIssue.courseCode === course.courseCode && 
+											totalIssue.courseTitle === course.courseTitle &&
+											totalIssue.year === course.year &&
+											totalIssue.semester === course.semester
+										);
+										
+										// Check for extra units
+										const hasExtraUnits = extraUnitsCourses.some(extraUnit => 
+											extraUnit.courseCode === course.courseCode && 
+											extraUnit.courseTitle === course.courseTitle &&
+											extraUnit.year === course.year &&
+											extraUnit.semester === course.semester
+										);
+										
+										return hasMissingPrereq || hasMissingReqUnit || hasTotalIssue || hasExtraUnits;
+									});
+									
+									return missing === 0 && !hasMissingNotes;
+								});
+							});
+
+							// If ALL references are fully met, show clean note
+							if (allRefsFullyMet && cmoReferences.length > 0) {
+								return (
+									<div>
+										<div className="text-sm text-green-700 mb-1">✅ All requirements met for <strong>{cmoReferences.join(', ')}</strong></div>
+									</div>
+								);
+							}
+
+							// Otherwise, check for partially met requirements and show detailed list
                             const hasMetRequirements = cmoReferences.some(ref => {
                                 // Only consider refs with per-reference data loaded
                                 if (!programNamesCacheByCmo[ref] || !programTotalsCacheByCmo[ref]) return false;

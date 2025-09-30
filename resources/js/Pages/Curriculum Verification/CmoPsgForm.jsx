@@ -428,7 +428,7 @@ export default function CmoPsg() {
     };
 
     const validateRequiredFields = () => {
-        const errors = validateRequiredFieldsUtil({ facultyName, selectedInstitution, position, cmoReferences, programName });
+        const errors = validateRequiredFieldsUtil({ facultyName, selectedInstitution, position, cmoReferences, programName, selectedSemester });
         setValidationErrors(errors);
         if (Object.keys(errors).length > 0) {
             scrollToFirstEmptyField(errors);
@@ -715,6 +715,8 @@ export default function CmoPsg() {
                                     setSelectedPeriod={setSelectedPeriod}
                                     ensureDefaultRowsForAllYearsUpTo={ensureDefaultRowsForAllYearsUpTo}
                                     ensureDefaultRowsForTrimestral={ensureDefaultRowsForTrimestral}
+                                    validationErrors={validationErrors}
+                                    clearValidationError={(field) => clearValidationErrorUtil(field, validationErrors, setValidationErrors)}
                                 />
                                 </div>
                                 </div>

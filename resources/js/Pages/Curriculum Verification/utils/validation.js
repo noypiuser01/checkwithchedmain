@@ -1,10 +1,11 @@
-export const validateRequiredFields = ({ facultyName, selectedInstitution, position, cmoReferences, programName }) => {
+export const validateRequiredFields = ({ facultyName, selectedInstitution, position, cmoReferences, programName, selectedSemester }) => {
 	const errors = {};
 	if (!String(facultyName || '').trim()) errors.facultyName = 'Faculty Name is required';
 	if (!String(selectedInstitution || '').trim()) errors.institution = 'Institute is required';
 	if (!String(position || '').trim()) errors.position = 'Position is required';
 	if (!Array.isArray(cmoReferences) || cmoReferences.length === 0) errors.cmoReferences = 'CMO/PSG References is required';
 	if (!String(programName || '').trim()) errors.programName = 'Program Name is required';
+	if (!String(selectedSemester || '').trim()) errors.selectedSemester = 'Mode (Semester) is required';
 	return errors;
 };
 
@@ -61,6 +62,17 @@ export const scrollToFirstEmptyField = (errors, refs = {}) => {
 			const input = programNameRef.current.querySelector('input');
 			if (input) input.focus();
 		}, 500);
+		return;
+	}
+	if (errors.selectedSemester) {
+		const modeSection = document.querySelector('[data-mode-section]');
+		if (modeSection) {
+			modeSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			setTimeout(() => {
+				const select = modeSection.querySelector('select');
+				if (select) select.focus();
+			}, 500);
+		}
 	}
 };
 

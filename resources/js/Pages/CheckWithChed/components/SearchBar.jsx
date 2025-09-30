@@ -8,7 +8,7 @@ export default function SearchBar({
 }) {
     return (
         <div className="flex justify-center px-4">
-            <div className="relative max-w-xl w-full">
+            <div className="relative max-w-4xl w-full">
                 {/* Glow effect behind search bar */}
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-indigo-400/20 to-blue-400/20 rounded-2xl blur-xl opacity-0 hover:opacity-100 transition-opacity duration-500 scale-110"></div>
                 
@@ -45,8 +45,8 @@ export default function SearchBar({
 
                     <button
                         type="submit"
-                        disabled={isLoading || !query.trim()}
-                        className="relative px-5 sm:px-7 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-b-2xl sm:rounded-r-2xl sm:rounded-b-none transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 sm:space-x-3 text-base sm:text-lg shadow-lg group/btn overflow-hidden"
+                        disabled={isLoading}
+                        className="relative inline-flex items-center justify-center font-medium cursor-pointer appearance-none outline-none user-select-none transition-all duration-75 transform-gpu bg-gradient-to-b from-[#3C67B6] to-[#2B5299] text-white border border-solid border-[#21417A] border-b-[4px] border-b-[#193563] shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_1px_0_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.06)] hover:bg-gradient-to-b hover:from-[#3A60AD] hover:to-[#2A4F92] active:bg-gradient-to-b active:from-[#274885] active:to-[#213D73] active:shadow-[0_0_0_1px_rgba(0,0,0,0.1)_inset,0_1px_2px_rgba(0,0,0,0.12)_inset] active:translate-y-[1px] active:scale-[0.98] active:border-b active:border-t-[4px] active:border-t-[#193563] focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed text-sm min-h-[2.25rem] px-5 sm:px-7 py-3 sm:py-4 rounded-b-2xl sm:rounded-r-2xl sm:rounded-b-none flex items-center justify-center space-x-2 sm:space-x-3 text-base sm:text-lg group/btn overflow-hidden"
                     >
                         {/* Button glow effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-500 opacity-0 group-hover/btn:opacity-15 transition-opacity duration-300"></div>
