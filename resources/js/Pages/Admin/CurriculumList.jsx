@@ -404,7 +404,7 @@ export default function CurriculumList({
     return (
         <>
             <Head title="">
-                <link rel="icon" type="image/png" href="/images/logo.png" />
+                <link rel="icon" type="image/png" href="/images/logo1.png" />
             </Head>
             <AdminLayout activeTab="curriculum-list" admin={admin}>
                 <div className="p-4 sm:p-6">

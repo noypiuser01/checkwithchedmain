@@ -642,7 +642,7 @@ export default function CmoPsg() {
     return (
         <PublicLayout header={true}>
             <Head title="">
-                <link rel="icon" type="image/png" href="/images/logo.png" />
+                <link rel="icon" type="image/png" href="/images/logo1.png" />
                 <style>{`
                     @keyframes pulse-once {
                         0% { opacity: 0.5; }

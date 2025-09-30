@@ -5,7 +5,7 @@ export default function ModalHeaderDetails({ facultyName, position, selectedInst
 			<div className="mb-6">
 				<div className="flex items-center justify-center mb-4">
 					<img 
-						src="/images/logo.png" 
+						src="/images/logo1.png" 
 						alt="CHED Logo" 
 						className="h-16 w-16 mr-4"
 					/>

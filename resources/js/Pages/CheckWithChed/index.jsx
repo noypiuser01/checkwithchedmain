@@ -163,7 +163,7 @@ export default function CheckWithChed({ results = [] }) {
     return (
         <>
             <Head title="">
-                <link rel="icon" type="image/png" href="/images/logo.png" />
+                <link rel="icon" type="image/png" href="/images/logo1.png" />
             </Head>
             <PublicLayout
                 header={
@@ -200,7 +200,7 @@ export default function CheckWithChed({ results = [] }) {
                                     <div className="absolute inset-0 w-16 h-16 bg-gradient-to-br from-blue-400/20 to-indigo-500/20 rounded-full blur-lg group-hover:scale-110 transition-all duration-500"></div>
                                     <div className="relative w-16 h-16 rounded-full shadow-md hover:shadow-blue-400/40 hover:scale-105 transition-all duration-300 group-hover:border-blue-300 overflow-hidden">
                                         <img
-                                            src="/images/logo.png"
+                                            src="/images/logo1.png"
                                             alt="CHED Logo"
                                             className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
                                         />

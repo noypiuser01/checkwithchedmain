@@ -1,15 +1,13 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link, usePage } from '@inertiajs/react';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Search, FileText, X } from 'lucide-react';
 import { router } from '@inertiajs/react';
 
 export default function PublicLayout({ header, children }) {
     const page = usePage();
     const user = page?.props?.auth?.user;
-    const [open, setOpen] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const dropdownRef = useRef(null);
 
     // NavButton component similar to AdminSidebar
     const NavButton = ({ isActive, onClick, icon: Icon, label }) => (
@@ -26,31 +24,7 @@ export default function PublicLayout({ header, children }) {
         </button>
     );
 
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setOpen(false);
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    // Close dropdown on escape key
-    useEffect(() => {
-        function handleEscape(event) {
-            if (event.key === 'Escape') {
-                setOpen(false);
-            }
-        }
-        if (open) {
-            document.addEventListener('keydown', handleEscape);
-            return () => document.removeEventListener('keydown', handleEscape);
-        }
-    }, [open]);
-
-    const toggleDropdown = () => setOpen(!open);
+    
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100">
@@ -64,7 +38,7 @@ export default function PublicLayout({ header, children }) {
                     {/* Fixed Logo Section (Left) */}
                     <div className="flex items-center px-2 sm:px-4 py-2 sticky top-0 z-50">
                         <img
-                            src="/images/logo.png"
+                            src="/images/logo1.png"
                             alt="CWCHD Logo"
                             className="h-8 sm:h-10 lg:h-12 w-auto mr-2 sm:mr-3 lg:mr-4"
                         />
@@ -94,66 +68,16 @@ export default function PublicLayout({ header, children }) {
                             </svg>
                         </button>
 
-                        {/* User profile dropdown */}
-                        <div className="relative" ref={dropdownRef}>
-                            <button
-                                onClick={toggleDropdown}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        e.preventDefault();
-                                        toggleDropdown();
-                                    }
-                                }}
-                                aria-expanded={open}
-                                aria-haspopup="true"
-                                aria-label="Open admin menu"
-                                className="flex items-center text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-800 rounded-md px-2 sm:px-3 py-1.5 sm:py-2 transition-all duration-200 hover:bg-blue-700 active:bg-blue-800"
-                            >
-                                Admin Login
-                                
-                            </button>
-
-                            {/* Dropdown */}
-                            {open && (
-                                <div
-                                    className="absolute right-0 mt-2 w-40 sm:w-48 lg:w-56 bg-white rounded-lg shadow-xl border border-gray-200 z-50 animate-fadeInScale"
-                                    role="menu"
-                                    aria-orientation="vertical"
-                                >
-                                    <div className="py-1">
-                                        <Link
-                                            href="/admin/login"
-                                            className="flex items-start px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-150 first:rounded-t-lg"
-                                            role="menuitem"
-                                            onClick={() => setOpen(false)}
-                                        >
-                                            <div className="flex flex-col">
-                                                <span className="font-medium">Admin Login</span>
-                                                <span className="text-xs text-gray-500">Login to manage system settings</span>
-                                            </div>
-                                        </Link>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                        {/* Admin Login direct link */}
+                        <Link
+                            href="/admin/login"
+                            className="flex items-center text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-0 px-2 sm:px-3 py-1.5 sm:py-2 transition-colors duration-200 hover:underline"
+                        >
+                            Admin Login
+                        </Link>
                     </div>
 
-                    {/* Dropdown animation */}
-                    <style>{`
-                        .animate-fadeInScale {
-                            animation: fadeInScale 0.2s ease-out forwards;
-                        }
-                        @keyframes fadeInScale {
-                            from {
-                                opacity: 0;
-                                transform: scale(0.95);
-                            }
-                            to {
-                                opacity: 1;
-                                transform: scale(1);
-                            }
-                        }
-                    `}</style>
+                    
                 </header>
             )}
 

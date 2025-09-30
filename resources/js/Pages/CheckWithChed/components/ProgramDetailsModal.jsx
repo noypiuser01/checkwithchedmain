@@ -16,7 +16,7 @@ export default function ProgramDetailsModal({
                 <div className="flex items-center justify-between p-4 sm:p-6 bg-[#1e3c73] text-white">
                     <div className="flex items-center gap-2 sm:gap-3">
                         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-white/10 flex items-center justify-center overflow-hidden ring-1 ring-white/20">
-                            <img src="/images/logo.png" alt="CHED Logo" className="w-5 h-5 sm:w-7 sm:h-7 object-contain" />
+                            <img src="/images/logo1.png" alt="CHED Logo" className="w-5 h-5 sm:w-7 sm:h-7 object-contain" />
                         </div>
                         <h3 className="text-lg sm:text-2xl font-bold">Program Details</h3>
                     </div>

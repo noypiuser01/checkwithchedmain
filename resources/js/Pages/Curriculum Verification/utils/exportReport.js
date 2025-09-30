@@ -19,7 +19,7 @@ export async function exportCurriculumReport({
 			<!-- CHED Header Section -->
 			<div style="margin-bottom:24px;">
 				<div style="display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-					<img src="/images/logo.png" alt="CHED Logo" style="height:64px;width:64px;margin-right:16px;" />
+					<img src="/images/logo1.png" alt="CHED Logo" style="height:64px;width:64px;margin-right:16px;" />
 					<div style="text-align:center;">
 						<h1 style="font-family:'Times New Roman', serif;font-size:16px;font-weight:400;color:#000;text-transform:uppercase;letter-spacing:1px;margin:0;">
 							Commission on Higher Education

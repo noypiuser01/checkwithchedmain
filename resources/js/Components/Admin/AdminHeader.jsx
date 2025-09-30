@@ -31,7 +31,7 @@ export default function AdminHeader({ sidebarOpen, setSidebarOpen, admin }) {
             {/* Fixed Logo Section (Left) */}
             <div className="flex items-center px-2 sm:px-4 py-2 sticky top-0 z-50">
                 <img
-                    src="/images/logo.png"
+                    src="/images/logo1.png"
                     alt="CWCHD Logo"
                     className="h-8 sm:h-10 lg:h-12 w-auto mr-2 sm:mr-3 lg:mr-4"
                 />

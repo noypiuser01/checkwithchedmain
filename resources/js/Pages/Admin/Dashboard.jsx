@@ -28,7 +28,7 @@ export default function AdminDashboard({ admin, dashboardData = {} }) {
     return (
         <>
             <Head title="">
-                <link rel="icon" type="image/png" href="/images/logo.png" />
+                <link rel="icon" type="image/png" href="/images/logo1.png" />
             </Head>
             <AdminLayout activeTab="dashboard" admin={admin}>
                 <div className="min-h-screen bg-gray-50">

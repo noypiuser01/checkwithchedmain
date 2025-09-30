@@ -25,7 +25,7 @@ export default function AuthenticatedLayout({ header, children }) {
                 <header className="bg-white shadow border-b border-gray-100 sticky top-0 z-50">
                     <div className="max-w-7xl px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
                         <div className="flex items-center">
-                            <img src="/images/logo.png" alt="CWCHD Logo" className="h-12 w-auto mr-4" />
+                            <img src="/images/logo1.png" alt="CWCHD Logo" className="h-12 w-auto mr-4" />
                             <div className="flex flex-col">
                                 <h4 className="text-lg font-semibold leading-tight text-gray-800">
                                     Commission on Higher Education - Region XII
