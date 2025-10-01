@@ -2,7 +2,7 @@ import { computeTotals, formatUnitsDisplay } from '../utils/helpers';
 
 export default function CurriculumBreakdown({ collectDisplayedCourses }) {
 	return (
-		<div>
+		<div style={{margin: '0 8px 16px'}}>
 			<h3 className="text-sm font-semibold text-gray-700 mb-2">Curriculum Breakdown</h3>
 			<table className="w-full text-xs border">
 				<thead>

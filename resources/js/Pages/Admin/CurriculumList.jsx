@@ -85,10 +85,10 @@ export default function CurriculumList({
         }
     }, [success]);
 
-    // Reset pagination when search term or filter changes
+    // Reset pagination when search term, filter, or page size changes
     useEffect(() => {
         resetPagination();
-    }, [searchTerm, selectedFilter, resetPagination]);
+    }, [searchTerm, selectedFilter, pageSize, resetPagination]);
 
     // Event handlers
     const handleEdit = (curriculumData) => {

@@ -19,8 +19,8 @@ export async function exportCurriculumReport({
 			<!-- CHED Header Section -->
 			<div style="margin-bottom:24px;">
 				<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-					<img src="/images/1.png" alt="CHED Logo Left" style="height:60px;width:auto;" />
-					<img src="/images/2.png" alt="CHED Logo Right" style="height:60px;width:auto;" />
+					<img src="/images/1.png" alt="CHED Logo Left" style="height:55px;width:auto;" />
+					<img src="/images/2.png" alt="CHED Logo Right" style="height:55px;width:auto;" />
 				</div>
 			</div>
 			

@@ -4,7 +4,7 @@ export default function SemesterPrintTable({ year, sem, rows, validateUnitsPerSe
 	const { totalUnits } = computeTotals(rows);
 	const validation = validateUnitsPerSemester(rows);
 	return (
-		<div className="overflow-x-auto print-semester" style={{marginBottom: '16px'}}>
+		<div className="overflow-x-auto print-semester" style={{margin: '0 8px 16px'}}>
 			<table className="w-full text-xs border" style={{width: '100%', borderCollapse: 'collapse', color: '#000'}}>
 				<thead>
 					<tr className="text-gray-900" style={{background: '#fff', color: '#000'}}>

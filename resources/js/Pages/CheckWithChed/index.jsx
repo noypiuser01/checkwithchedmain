@@ -182,8 +182,8 @@ export default function CheckWithChed({ results = [] }) {
                 }
             >
                 {/* Search Section - Matching AdminLogin Style */}
-                <section className="min-h-screen flex items-center justify-center bg-white px-4 py-16">
-                    <div className="w-full max-w-4xl flex flex-col items-center -mt-48">
+                <section className="bg-white px-4 py-16">
+                    <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
                         {/* Logo */}
                         <div className="mb-4">
                             <img src="/images/logo1.png" alt="CHED Logo" className="h-20 w-20" />
@@ -215,7 +215,7 @@ export default function CheckWithChed({ results = [] }) {
                 </section>
 
                 {/* Results Section */}
-                <section id="search-results" className="py-12 bg-white min-h-[400px] -mt-24">
+                <section id="search-results" className="py-8 bg-white min-h-[400px]">
                     <div className="max-w-6xl mx-auto px-4">
                         {submitted && searchResults.length > 0 ? (
                             <>

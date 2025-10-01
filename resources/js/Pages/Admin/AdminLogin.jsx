@@ -1,5 +1,8 @@
 import { useForm } from "@inertiajs/react";
 import { Head, Link } from "@inertiajs/react";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import ForgotPasswordModal from "@/Components/ForgotPasswordModal";
 
 export default function AdminLogin({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -7,6 +10,12 @@ export default function AdminLogin({ status, canResetPassword }) {
         password: "",
         remember: false,
     });
+
+    // Modal state
+    const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+    
+    // Password visibility state
+    const [showPassword, setShowPassword] = useState(false);
 
     const submit = (e) => {
         e.preventDefault();
@@ -67,23 +76,38 @@ export default function AdminLogin({ status, canResetPassword }) {
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                                {canResetPassword && (
-                                    <Link href={route("password.request")} className="text-sm text-gray-600 hover:underline">
-                                        Forgot password?
-                                    </Link>
-                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => setShowForgotPasswordModal(true)}
+                                    className="text-sm text-black-600 hover:text-blue-800 hover:underline transition-colors duration-200"
+                                >
+                                    Forgot password?
+                                </button>
                             </div>
-                            <input
-                                id="password"
-                                type="password"
-                                name="password"
-                                required
-                                autoComplete="current-password"
-                                placeholder="Password"
-                                className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                value={data.password}
-                                onChange={(e) => setData("password", e.target.value)}
-                            />
+                            <div className="relative">
+                                <input
+                                    id="password"
+                                    type={showPassword ? "text" : "password"}
+                                    name="password"
+                                    required
+                                    autoComplete="current-password"
+                                    placeholder="Password"
+                                    className="block w-full rounded-md border border-gray-300 px-3 py-2 pr-10 text-sm shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                                    value={data.password}
+                                    onChange={(e) => setData("password", e.target.value)}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                                >
+                                    {showPassword ? (
+                                        <EyeOff className="h-4 w-4" />
+                                    ) : (
+                                        <Eye className="h-4 w-4" />
+                                    )}
+                                </button>
+                            </div>
                             {errors.password && (
                                 <p className="text-sm text-red-600">{errors.password}</p>
                             )}
@@ -113,6 +137,12 @@ export default function AdminLogin({ status, canResetPassword }) {
                     </form>
                 </div>
             </div>
+
+            {/* Forgot Password Modal */}
+            <ForgotPasswordModal
+                isOpen={showForgotPasswordModal}
+                onClose={() => setShowForgotPasswordModal(false)}
+            />
         </>
     );
 }

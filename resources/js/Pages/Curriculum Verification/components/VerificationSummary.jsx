@@ -16,7 +16,7 @@ export default function VerificationSummary({
 	checkCoursesWithExtraUnits
 }) {
 	return (
-		<div>
+		<div style={{margin: '0 8px 16px'}}>
 			<h3 className="text-sm font-semibold text-gray-700 mb-3">Summary</h3>
 			{cmoReferences.length === 0 ? (
 				<div className="text-sm text-blue-600">Select <strong>CMO/PSG References</strong> to check prerequisites.</div>
@@ -123,7 +123,7 @@ export default function VerificationSummary({
 							if (allRefsFullyMet && cmoReferences.length > 0) {
 								return (
 									<div>
-										<div className="text-sm text-green-700 mb-1">✅ All requirements met for <strong>{cmoReferences.join(', ')}</strong></div>
+										<div className="text-sm text-black mb-1">✓ All requirements met for <strong>{cmoReferences.join(', ')}</strong></div>
 									</div>
 								);
 							}

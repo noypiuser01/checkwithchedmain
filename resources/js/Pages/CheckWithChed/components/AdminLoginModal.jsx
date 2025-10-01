@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Shield } from 'lucide-react';
+import ForgotPasswordModal from '@/Components/ForgotPasswordModal';
 
 export default function AdminLoginModal({ 
     isOpen, 
@@ -10,6 +11,8 @@ export default function AdminLoginModal({
     isLoading, 
     error 
 }) {
+    const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+    
     if (!isOpen) return null;
 
     return (
@@ -40,9 +43,18 @@ export default function AdminLoginModal({
                     </div>
 
                     <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                            Password
-                        </label>
+                        <div className="flex items-center justify-between mb-1">
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                Password
+                            </label>
+                            <button
+                                type="button"
+                                onClick={() => setShowForgotPasswordModal(true)}
+                                className="text-xs text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200"
+                            >
+                                Forgot password?
+                            </button>
+                        </div>
                         <input
                             type="password"
                             id="password"
@@ -95,6 +107,12 @@ export default function AdminLoginModal({
                     ✕
                 </button>
             </div>
+
+            {/* Forgot Password Modal */}
+            <ForgotPasswordModal
+                isOpen={showForgotPasswordModal}
+                onClose={() => setShowForgotPasswordModal(false)}
+            />
         </div>
     );
 }

@@ -1,4 +1,5 @@
 import { formatUnitsDisplay } from '../utils/helpers';
+import { useState, useEffect } from 'react';
 
 export default function CourseTable({
     buildPeriodsToShow,
@@ -14,6 +15,82 @@ export default function CourseTable({
     fetchTitlesForCategory,
     fetchPrerequisitesForCourse
 }) {
+    // Calculate the maximum width needed for course titles across all periods
+    const calculateMaxCourseTitleWidth = () => {
+        const minWidth = 120;
+        const maxWidth = 300;
+        const charWidth = 8;
+        
+        let maxWidthNeeded = minWidth;
+        
+        buildPeriodsToShow().forEach(period => {
+            const { year, semester } = parsePeriod(period);
+            const key = `${year}-${semester}`;
+            const periodCourses = courses[key] || [];
+            
+            periodCourses.forEach(course => {
+                if (course.courseTitle) {
+                    const titleWidth = Math.max(minWidth, Math.min(maxWidth, course.courseTitle.length * charWidth + 20));
+                    maxWidthNeeded = Math.max(maxWidthNeeded, titleWidth);
+                }
+            });
+        });
+        
+        return maxWidthNeeded;
+    };
+
+    // Calculate the maximum width needed for course codes across all periods
+    const calculateMaxCourseCodeWidth = () => {
+        const minWidth = 80;
+        const maxWidth = 150;
+        const charWidth = 8;
+        
+        let maxWidthNeeded = minWidth;
+        
+        buildPeriodsToShow().forEach(period => {
+            const { year, semester } = parsePeriod(period);
+            const key = `${year}-${semester}`;
+            const periodCourses = courses[key] || [];
+            
+            periodCourses.forEach(course => {
+                if (course.courseCode) {
+                    const codeWidth = Math.max(minWidth, Math.min(maxWidth, course.courseCode.length * charWidth + 20));
+                    maxWidthNeeded = Math.max(maxWidthNeeded, codeWidth);
+                }
+            });
+        });
+        
+        return maxWidthNeeded;
+    };
+
+    // Calculate the maximum width needed for categories across all periods
+    const calculateMaxCategoryWidth = () => {
+        const minWidth = 100;
+        const maxWidth = 200;
+        const charWidth = 8;
+        
+        let maxWidthNeeded = minWidth;
+        
+        buildPeriodsToShow().forEach(period => {
+            const { year, semester } = parsePeriod(period);
+            const key = `${year}-${semester}`;
+            const periodCourses = courses[key] || [];
+            
+            periodCourses.forEach(course => {
+                if (course.category) {
+                    const categoryWidth = Math.max(minWidth, Math.min(maxWidth, course.category.length * charWidth + 20));
+                    maxWidthNeeded = Math.max(maxWidthNeeded, categoryWidth);
+                }
+            });
+        });
+        
+        return maxWidthNeeded;
+    };
+
+    const maxCourseTitleWidth = calculateMaxCourseTitleWidth();
+    const maxCourseCodeWidth = calculateMaxCourseCodeWidth();
+    const maxCategoryWidth = calculateMaxCategoryWidth();
+
     return (
         <div className="mt-6 border-t pt-4">
             {buildPeriodsToShow().map(period => {
@@ -68,7 +145,7 @@ export default function CourseTable({
                                         <tr>
                                             <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Course Code</th>
                                             <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Category</th>
-                                            <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Course Title</th>
+                                            <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200 ">Course Title</th>
                                             <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Req Units</th>
                                             <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Total Units</th>
                                             <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Lec Units</th>
@@ -85,8 +162,13 @@ export default function CourseTable({
                                                         type="text"
                                                         value={course.courseCode}
                                                         onChange={(e) => updateCourse(year, semester, course.id, 'courseCode', e.target.value)}
-                                                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
+                                                        className="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center transition-all duration-200"
                                                         placeholder="e.g., CS101"
+                                                        style={{ 
+                                                            width: `${maxCourseCodeWidth}px`, 
+                                                            minWidth: '80px', 
+                                                            maxWidth: '150px' 
+                                                        }}
                                                     />
                                                 </td>
                                                 <td className="px-4 py-3 border-r border-gray-200">
@@ -104,8 +186,13 @@ export default function CourseTable({
                                                                 // Fetch prerequisites if both category and title are set
                                                                 await fetchPrerequisitesForCourse(year, semester, course.id, course.courseTitle, value);
                                                             }}
-                                                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
+                                                            className="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center transition-all duration-200"
                                                             placeholder="Type or select category"
+                                                            style={{ 
+                                                                width: `${maxCategoryWidth}px`, 
+                                                                minWidth: '100px', 
+                                                                maxWidth: '200px' 
+                                                            }}
                                                         />
                                                         <datalist id={`categories-${course.id}`}>
                                                             {getCategoriesForCMO().map(category => (
@@ -127,8 +214,13 @@ export default function CourseTable({
                                                                 // Fetch prerequisites if both category and title are set
                                                                 await fetchPrerequisitesForCourse(year, semester, course.id, newTitle, course.category);
                                                             }}
-                                                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
+                                                            className="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center transition-all duration-200"
                                                             placeholder={titlesLoadingCategory === course.category ? 'Loading titles...' : 'Type or select title'}
+                                                            style={{ 
+                                                                width: `${maxCourseTitleWidth}px`, 
+                                                                minWidth: '120px', 
+                                                                maxWidth: '300px' 
+                                                            }}
                                                         />
                                                         {(() => {
                                                             const titles = getTitlesForCategory(course.category);

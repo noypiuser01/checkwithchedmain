@@ -1,4 +1,4 @@
-import { Edit, Trash2, Eye, EyeOff } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
 
 export default function CurriculumCard({ 
     semester, 
@@ -50,14 +50,9 @@ export default function CurriculumCard({
                         
                         <button 
                             onClick={() => onViewToggle(semester, curriculum)}
-                            className={`inline-flex items-center px-3 py-2 text-xs font-medium rounded-md transition-colors duration-200 ${
-                                isViewing 
-                                    ? 'text-gray-600 bg-gray-100 hover:bg-gray-200' 
-                                    : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
-                            }`}
+                            className="inline-flex items-center px-3 py-2 text-xs font-medium rounded-md transition-colors duration-200 text-blue-600 bg-blue-50 hover:bg-blue-100"
                         >
-                            {isViewing ? <EyeOff className="h-4 w-4 mr-1" /> : <Eye className="h-4 w-4 mr-1" />}
-                            {isViewing ? 'Hide' : 'View'}
+                            View
                         </button>
                         
                         <div className="relative group">
