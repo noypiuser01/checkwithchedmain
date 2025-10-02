@@ -459,36 +459,47 @@ export default function CurriculumList({
                                             </div>
                                         </div>
                                     )}
+                                    {/* Curricula List */}
+                                    <div className="bg-white rounded-lg border border-gray-100 overflow-hidden">
+                                        {/* Table Header */}
+                                        <div className="px-6 py-3 border-b border-gray-100 bg-gray-50">
+                                            <div className="flex items-center justify-between">
+                                                <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    CMO/PSG - Program Name
+                                                </h4>
+                                                
+                                                <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Actions
+                                                </h4>
+                                            </div>
+                                        </div>
 
-                        {/* Curricula List */}
-                                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                                         {paginatedData.length > 0 ? (
                                             paginatedData.map((semester) => {
-                                                // Find the parent curriculum for this semester
                                                 const curriculum = filteredGroupedData.find(c => 
                                                     c.semesters.some(s => s.id === semester.id)
                                                 );
-                                    
+
                                                 return (
-                                        <CurriculumCard
-                                            key={semester.id}
-                                            semester={semester}
-                                            curriculum={curriculum}
-                                            activeViewSemesterId={activeViewSemesterId}
-                                            onViewToggle={handleViewToggle}
-                                            onEdit={handleEdit}
-                                            onDelete={handleDeleteCurriculum}
-                                            getCurriculumStatus={getCurriculumStatus}
-                                            calculateTotalUnits={calculateTotalUnits}
-                                            admin={admin}
-                                        />
-                                    );
-                                })
+                                                    <CurriculumCard
+                                                        key={semester.id}
+                                                        semester={semester}
+                                                        curriculum={curriculum}
+                                                        activeViewSemesterId={activeViewSemesterId}
+                                                        onViewToggle={handleViewToggle}
+                                                        onEdit={handleEdit}
+                                                        onDelete={handleDeleteCurriculum}
+                                                        getCurriculumStatus={getCurriculumStatus}
+                                                        calculateTotalUnits={calculateTotalUnits}
+                                                        admin={admin}
+                                                    />
+                                                );
+                                            })
                                         ) : (
                                             <div className="text-center py-12">
-                                                    <Layers className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                                                    <p className="text-lg font-medium">No curriculum found</p>
-                                                    <p className="text-sm">Try adjusting your search or filter criteria.</p>
+                                                <Layers className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                                                <p className="text-lg font-medium text-gray-900">No curriculum found</p>
+                                                <p className="text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
                                             </div>
                                         )}
                                     </div>

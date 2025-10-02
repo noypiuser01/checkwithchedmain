@@ -69,6 +69,24 @@ class CurriculumController extends Controller
     }
 
     /**
+     * Return all distinct course categories from curriculum_courses table.
+     * GET /api/categories
+     */
+    public function getAllCategories(Request $request)
+    {
+        $categories = CurriculumCourse::query()
+            ->whereNotNull('category')
+            ->where('category', '!=', '')
+            ->pluck('category')
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values();
+
+        return response()->json($categories);
+    }
+
+    /**
      * Return course code based on title, category, and CMO.
      * GET /api/course-code-by-title?title=...&category=...&cmo[]=...
      */

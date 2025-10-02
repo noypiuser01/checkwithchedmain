@@ -26,6 +26,7 @@ Route::get('/api/curricula', [App\Http\Controllers\CurriculumController::class, 
 Route::get('/api/curricula/inactive', [App\Http\Controllers\CurriculumController::class, 'getInactiveCurricula'])->name('api.curricula.inactive');
 Route::get('/api/cmo-category-titles', [App\Http\Controllers\CurriculumController::class, 'getTitlesByCmoAndCategory'])->name('api.cmo-category-titles');
 Route::get('/api/cmo-categories', [App\Http\Controllers\CurriculumController::class, 'getCategoriesByCmo'])->name('api.cmo-categories');
+Route::get('/api/categories', [App\Http\Controllers\CurriculumController::class, 'getAllCategories'])->name('api.categories');
 Route::get('/api/cmo-program-names', [App\Http\Controllers\CurriculumController::class, 'getProgramNamesByCmo'])->name('api.cmo-program-names');
 Route::get('/api/course-code-by-title', [App\Http\Controllers\CurriculumController::class, 'getCourseCodeByTitle'])->name('api.course-code-by-title');
 Route::get('/api/course-details-by-title', [App\Http\Controllers\CurriculumController::class, 'getCourseDetailsByTitle'])->name('api.course-details-by-title');

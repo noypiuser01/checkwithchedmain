@@ -1,16 +1,43 @@
 import { Head, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BookOpen, Save, Plus, X, Trash2 } from 'lucide-react';
 import AdminLayout from '@/Components/Admin/AdminLayout';
+import axios from 'axios';
 
 export default function AddCurriculum({ existingCurricula = [], admin }) {
     const [formData, setFormData] = useState({
         curriculumName: '',
         programName: '',
-        courses: []
+        courses: [
+            { code: "", category: "", title: "", totalUnits: "", lecUnits: "", labUnits: "", prereq: "" },
+            { code: "", category: "", title: "", totalUnits: "", lecUnits: "", labUnits: "", prereq: "" },
+            { code: "", category: "", title: "", totalUnits: "", lecUnits: "", labUnits: "", prereq: "" },
+            // { code: "", category: "", title: "", totalUnits: "", lecUnits: "", labUnits: "", prereq: "" }
+        ]
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
+    const [categories, setCategories] = useState([]);
+    const [categoriesLoading, setCategoriesLoading] = useState(false);
+
+    // Fetch categories from database
+    const fetchCategories = async () => {
+        try {
+            setCategoriesLoading(true);
+            const response = await axios.get('/api/categories');
+            setCategories(Array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            setCategories([]);
+        } finally {
+            setCategoriesLoading(false);
+        }
+    };
+
+    // Load categories on component mount
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -108,7 +135,7 @@ export default function AddCurriculum({ existingCurricula = [], admin }) {
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        CMO/PSG Name *
+                                        CMO/PSG Name <span className="text-red-500">*</span>
                                     </label>
                                         <input
                                         type="text"
@@ -129,7 +156,7 @@ export default function AddCurriculum({ existingCurricula = [], admin }) {
 
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                Program Name *
+                                                Program Name <span className="text-red-500">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -167,64 +194,59 @@ export default function AddCurriculum({ existingCurricula = [], admin }) {
                                     {formData.courses.length === 0 ? (
                                         <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
                                             <BookOpen className="h-8 w-8 text-gray-400 mx-auto mb-3" />
-                                            <p className="text-gray-600 mb-4">No CMO/PSG added yet</p>
+                                            <p className="text-gray-600 mb-4">No courses added yet</p>
                                         </div>
                                     ) : (
                                         <div className="overflow-x-auto">
                                             <table className="min-w-full border border-gray-200 rounded-lg">
                                                 <thead className="bg-gray-50">
                                                     <tr>
-                                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Course Code</th>
-                                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Category</th>
-                                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Course Title</th>
-                                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Total Units</th>
-                                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Lec Units</th>
-                                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Lab Units</th>
-                                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Prerequisites</th>
+                                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Course Code</th>
+                                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Category</th>
+                                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Course Title</th>
+                                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Total Units</th>
+                                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Lec Units</th>
+                                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Lab Units</th>
+                                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider border-r border-gray-200">Prerequisites</th>
                                                         <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="bg-white divide-y divide-gray-200">
                                                     {formData.courses.map((course, idx) => (
                                                         <tr key={idx} className="hover:bg-gray-50">
-                                                            <td className="px-4F py-3 border-r border-gray-200">
+                                                            <td className="px-4 py-3 border-r border-gray-200">
                                                                 <input
                                                                     type="text"
                                                                     value={course.code}
                                                                     onChange={(e) => updateCourse(idx, 'code', e.target.value)}
-                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
                                                                     placeholder="e.g., CS101"
                                                                 />
                                                             </td>
                                                             <td className="px-4 py-3 border-r border-gray-200">
-                                                                <select
-                                                                    value={course.category}
-                                                                    onChange={(e) => updateCourse(idx, 'category', e.target.value)}
-                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                                >
-                                                                    <option value="">Select Category</option>
-                                                                    <option value="General Education">General Education</option>
-                                                                    <option value="General Education Core Courses">General Education Core Courses</option>
-                                                                    <option value="General Education Elective Courses">General Education Elective Courses</option>
-                                                                    <option value="General Education Mandated Course">General Education Mandated Course</option>
-                                                                    <option value="Core Courses">Core Courses</option>
-                                                                    <option value="Research Courses">Research Courses</option>
-                                                                    <option value="Internship Courses">Internship Courses</option>
-                                                                    <option value="Professional Domain Course">Professional Domain</option>
-                                                                    <option value="Common Course">Common Course</option>
-                                                                    <option value="Professional Course">Professional Course</option>
-                                                                    <option value="Professional Electives">Professional Electives</option>
-                                                                    <option value="PE">PE</option>
-                                                                    <option value="Physical Education Courses">Physical Education Courses</option>
-                                                                    <option value="NSTP">NSTP</option>
-                                                                </select>
+                                                                <div className="relative">
+                                                                    <input
+                                                                        type="text"
+                                                                        list={`categories-${idx}`}
+                                                                        value={course.category}
+                                                                        onChange={(e) => updateCourse(idx, 'category', e.target.value)}
+                                                                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
+                                                                        placeholder={categoriesLoading ? "Loading categories..." : "Type or select category"}
+                                                                        disabled={categoriesLoading}
+                                                                    />
+                                                                    <datalist id={`categories-${idx}`}>
+                                                                        {categories.map(category => (
+                                                                            <option key={category} value={category} />
+                                                                        ))}
+                                                                    </datalist>
+                                                                </div>
                                                             </td>
                                                             <td className="px-4 py-3 border-r border-gray-200">
                                                                 <input
                                                                     type="text"
                                                                     value={course.title}
                                                                     onChange={(e) => updateCourse(idx, 'title', e.target.value)}
-                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
                                                                     placeholder="Enter course title"
                                                                 />
                                                             </td>
@@ -233,7 +255,7 @@ export default function AddCurriculum({ existingCurricula = [], admin }) {
                                                                     type="text"
                                                                     value={course.totalUnits}
                                                                     onChange={(e) => updateCourse(idx, 'totalUnits', e.target.value)}
-                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
                                                                     placeholder="3"
                                                                 />
                                                             </td>
@@ -242,7 +264,7 @@ export default function AddCurriculum({ existingCurricula = [], admin }) {
                                                                     type="text"
                                                                     value={course.lecUnits}
                                                                     onChange={(e) => updateCourse(idx, 'lecUnits', e.target.value)}
-                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
                                                                     placeholder="3"
                                                                 />
                                                             </td>
@@ -251,7 +273,7 @@ export default function AddCurriculum({ existingCurricula = [], admin }) {
                                                                     type="text"
                                                                     value={course.labUnits}
                                                                     onChange={(e) => updateCourse(idx, 'labUnits', e.target.value)}
-                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
                                                                     placeholder="0"
                                                                 />
                                                             </td>
@@ -260,7 +282,7 @@ export default function AddCurriculum({ existingCurricula = [], admin }) {
                                                                     type="text"
                                                                     value={course.prereq || ''}
                                                                     onChange={(e) => updateCourse(idx, 'prereq', e.target.value)}
-                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
                                                                     placeholder="e.g., CS100, MATH101"
                                                                 />
                                                             </td>

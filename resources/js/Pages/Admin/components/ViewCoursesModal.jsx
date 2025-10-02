@@ -69,7 +69,7 @@ export default function ViewCoursesModal({
                     
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-                            <thead className="bg-[#1e3c73]">
+                            <thead className="bg-gray-500">
                                 <tr>
                                     <th className="px-2 py-1 text-center text-xs font-medium text-white border-r border-gray-200">Course Code</th>
                                     <th className="px-2 py-1 text-center text-xs font-medium text-white border-r border-gray-200">Category</th>
@@ -137,7 +137,7 @@ export default function ViewCoursesModal({
                             <h6 className="font-semibold text-gray-700 mb-2 text-xs">Curriculum Breakdown</h6>
                             <div className="overflow-x-auto">
                                 <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-                                    <thead className="bg-[#1e3c73]">
+                                    <thead className="bg-gray-500">
                                         <tr>
                                             <th className="px-2 py-1 text-center text-xs font-medium text-white border-r border-gray-200">Description</th>
                                             <th className="px-2 py-1 text-center text-xs font-medium text-white">Total Units</th>
